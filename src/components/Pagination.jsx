@@ -1,7 +1,7 @@
 import React from "react";
 // import { getRangeArray } from '../utils/getRangeArray.js'
-import _ from "lodash";
 import PropTypes from "prop-types";
+import getPagesRange from "../utils/getPagesRange.js";
 
 export const Pagination = ({
     itemsCount,
@@ -9,8 +9,7 @@ export const Pagination = ({
     onPageChange,
     currentPage
 }) => {
-    const pageCount = Math.ceil(itemsCount / pageSize);
-    const pages = _.range(1, pageCount + 1);
+    const [pageCount, pages] = getPagesRange(itemsCount, pageSize);
     if (pageCount === 1) return null;
 
     return (
