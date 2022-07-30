@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { SearchStatus } from "./components/SearchStatus.jsx";
+import React, { useState, useEffect } from "react";
 import { Users } from "./components/Users.jsx";
 import api from "./api";
 
 export const App = () => {
-    const [users, setUsers] = useState(api.users.fetchAll());
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        api.users.fetchAll().then((response) => setUsers(response));
+    }, []);
 
     const handleDelete = (userId) =>
         setUsers((prevState) =>
@@ -20,7 +23,6 @@ export const App = () => {
 
     return (
         <>
-            <SearchStatus length={users.length} />
             <Users
                 users={users}
                 onDelete={handleDelete}
