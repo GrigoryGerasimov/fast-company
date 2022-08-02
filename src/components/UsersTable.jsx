@@ -4,7 +4,7 @@ import { QualitiesList } from "./QualitiesList.jsx";
 import { Table } from "./Table.jsx";
 import PropTypes from "prop-types";
 
-export const UsersTable = ({ users, onSort, selectedSort, onBookmarkToggle, onDelete, ...rest }) => {
+export const UsersTable = ({ users, onSort, selectedSort, onBookmarkToggle, onDelete }) => {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: {
@@ -46,6 +46,5 @@ UsersTable.propTypes = {
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
     onBookmarkToggle: PropTypes.func.isRequired,
-    onDelete: PropTypes.func.isRequired,
-    rest: PropTypes.any
+    onDelete: PropTypes.func.isRequired
 };
