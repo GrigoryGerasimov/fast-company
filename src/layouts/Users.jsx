@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { UsersTable } from "./UsersTable.jsx";
-import { Pagination } from "./Pagination.jsx";
+import { UsersTable } from "../components/UsersTable.jsx";
+import { Pagination } from "../components/Pagination.jsx";
 import { paginate } from "../utils/paginate.js";
-import { GroupList } from "./GroupList.jsx";
+import { GroupList } from "../components/GroupList.jsx";
 import PropTypes from "prop-types";
-import api from "../api/index.js";
-import { SearchStatus } from "./SearchStatus";
+import api from "../api";
+import { SearchStatus } from "../components/SearchStatus";
 import getPagesRange from "../utils/getPagesRange.js";
 import _ from "lodash";
 
-export const Users = () => {
+const Users = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -96,6 +96,8 @@ export const Users = () => {
         );
     } else return "loading...";
 };
+
+export default Users;
 
 Users.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object)
