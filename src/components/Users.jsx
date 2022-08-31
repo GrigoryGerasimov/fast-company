@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { UsersTable } from "../components/UsersTable.jsx";
-import { Pagination } from "../components/Pagination.jsx";
+import { UsersTable } from "./UsersTable.jsx";
+import { Pagination } from "./Pagination.jsx";
 import { paginate } from "../utils/paginate.js";
-import { GroupList } from "../components/GroupList.jsx";
+import { GroupList } from "./GroupList.jsx";
 import PropTypes from "prop-types";
-import api from "../api";
-import { SearchStatus } from "../components/SearchStatus.jsx";
-import { SearchBar } from "../components/SearchBar.jsx";
+import api from "../api/index.js";
+import { SearchStatus } from "./SearchStatus";
 import getPagesRange from "../utils/getPagesRange.js";
 import _ from "lodash";
 
-const Users = () => {
+export const Users = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
@@ -36,24 +35,12 @@ const Users = () => {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
 
-    const [searchValue, setSearchValue] = useState("");
-    const handleResetSearch = () => {
-        setSearchValue("");
-    };
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
-        handleResetSearch();
     };
     const clearFilter = () => {
         setSelectedProf();
-        handleResetSearch();
     };
-    const handleSearch = ({ target }) => {
-        const { value } = target;
-        clearFilter();
-        setSearchValue(value);
-    };
-
     const handleSort = (item) => {
         setSortBy(item);
     };
@@ -64,10 +51,9 @@ const Users = () => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    const updatedUsers = users.filter((user) => selectedProf ? JSON.stringify(user.profession) === JSON.stringify(selectedProf) : searchValue ? user.name.toLowerCase().includes(searchValue.toLowerCase()) : user);
-
-    const sortedUsers = _.orderBy(updatedUsers, [sortBy.path], [sortBy.order]);
-    const count = updatedUsers.length;
+    const filteredUsers = selectedProf ? users.filter((user) => JSON.stringify(user.profession) === JSON.stringify(selectedProf)) : users;
+    const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
+    const count = filteredUsers.length;
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
     useEffect(() => {
         const [, pages] = getPagesRange(count, pageSize);
@@ -96,7 +82,6 @@ const Users = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count}/>
-                    <SearchBar value={searchValue} onSearch={handleSearch} />
                     {count ? <UsersTable users={userCrop} onSort={handleSort} selectedSort={sortBy} onDelete={handleDelete} onBookmarkToggle={handleToggleBookmark}/> : null}
                     <div className="d-flex justify-content-center">
                         <Pagination
@@ -111,8 +96,6 @@ const Users = () => {
         );
     } else return "loading...";
 };
-
-export default Users;
 
 Users.propTypes = {
     users: PropTypes.arrayOf(PropTypes.object)

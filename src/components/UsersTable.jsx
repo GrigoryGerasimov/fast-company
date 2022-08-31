@@ -2,18 +2,11 @@ import React from "react";
 import { Bookmark } from "./Bookmark";
 import { QualitiesList } from "./QualitiesList.jsx";
 import { Table } from "./Table.jsx";
-import { UserName } from "./UserName.jsx";
 import PropTypes from "prop-types";
 
 export const UsersTable = ({ users, onSort, selectedSort, onBookmarkToggle, onDelete }) => {
     const columns = {
-        name: {
-            path: "name",
-            name: "Имя",
-            component: (user) => (
-                <UserName name={user.name} id={user._id} />
-            )
-        },
+        name: { path: "name", name: "Имя" },
         qualities: {
             name: "Качества",
             component: (user) => (
