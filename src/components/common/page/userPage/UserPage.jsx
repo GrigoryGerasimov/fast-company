@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { QualitiesList } from "./QualitiesList.jsx";
+import { Qualities } from "../../../ui/qualities";
 import { useHistory } from "react-router-dom";
 
 export const UserPage = ({ user }) => {
@@ -13,7 +13,7 @@ export const UserPage = ({ user }) => {
             <ul className="list-group">
                 <li className="list-group-item">{user.name}</li>
                 <li className="list-group-item">Профессия: {user.profession.name}</li>
-                <li className="list-group-item"><QualitiesList qualities={user.qualities}/></li>
+                <li className="list-group-item"><Qualities qualities={user.qualities}/></li>
                 <li className="list-group-item">Количество встреч: {user.completedMeetings}</li>
                 <li className="list-group-item">Оценка: {user.rate}</li>
             </ul>
