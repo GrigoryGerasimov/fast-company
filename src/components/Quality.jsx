@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export const Quality = ({ color, name }) => (
-    <span className={`quality badge bg-${color} m-1`}>{name}</span>
+    <td className={`quality badge bg-${color} m-1`}>{name}</td>
 );
 
 Quality.propTypes = {
