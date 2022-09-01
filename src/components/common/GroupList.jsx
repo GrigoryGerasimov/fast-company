@@ -11,9 +11,16 @@ export const GroupList = ({
     return (
         <ul className="list-group">
             {Array.isArray(items) ? items.map((item) => (
-                <li key={item[valueProp]} className={`list-group-item ${
-                    item === selectedItem ? "active" : ""
-                }`} onClick={() => onItemSelect(item)} role="button">{item[contentProp]}</li>
+                <li
+                    key={item[valueProp]}
+                    className={`list-group-item ${
+                        item === selectedItem ? "active" : ""
+                    }`}
+                    onClick={() => onItemSelect(item)}
+                    role="button"
+                >
+                    {item[contentProp]}
+                </li>
             )) : Object.keys(items).map((item) => (
                 <li
                     key={items[item]?.[valueProp]}
@@ -25,8 +32,7 @@ export const GroupList = ({
                 >
                     {items[item]?.[contentProp]}
                 </li>
-            )
-            )}
+            ))}
         </ul>
     );
 };

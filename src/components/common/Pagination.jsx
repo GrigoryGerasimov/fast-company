@@ -1,7 +1,7 @@
 import React from "react";
 // import { getRangeArray } from '../utils/getRangeArray.js'
 import PropTypes from "prop-types";
-import getPagesRange from "../utils/getPagesRange.js";
+import getPagesRange from "../../utils/getPagesRange.js";
 
 export const Pagination = ({
     itemsCount,

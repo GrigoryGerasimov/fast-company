@@ -1,33 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Users } from "./components/Users.jsx";
-import api from "./api";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import Login from "./layouts/Login.jsx";
+import Main from "./layouts/Main.jsx";
+import Users from "./layouts/Users.jsx";
+import NavBar from "./components/ui/NavBar.jsx";
+import NotFound from "./components/NotFound.jsx";
 
 export const App = () => {
-    const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-        api.users.fetchAll().then((response) => setUsers(response));
-    }, []);
-
-    const handleDelete = (userId) =>
-        setUsers((prevState) =>
-            prevState.filter((user) => user._id !== userId)
-        );
-    const handleToggleBookmark = (userId) => {
-        const currentUserIndex = users.findIndex((user) => user._id === userId);
-        const updatedUsers = [...users];
-        updatedUsers[currentUserIndex].bookmark =
-            !updatedUsers[currentUserIndex].bookmark;
-        setUsers(updatedUsers);
-    };
-
     return (
         <>
-            <Users
-                users={users}
-                onDelete={handleDelete}
-                onBookmarkToggle={handleToggleBookmark}
-            />
+            <NavBar />
+            <Switch>
+                <Route exact path="/" component={Main}/>
+                <Route path="/login" component={Login} />
+                <Route path="/users/:userId?" component={Users} />
+                <Route component={NotFound} />
+            </Switch>
         </>
     );
 };
