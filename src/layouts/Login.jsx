@@ -1,9 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { LoginForm } from "../components/ui/LoginForm.jsx";
+import { RegistrationForm } from "../components/ui/RegistrationForm.jsx";
+import ContainerWrapper from "../components/ui/ContainerWrapper.jsx";
 
 const Login = () => {
+    const { type } = useParams();
+    const [formType, setFormType] = useState(type === "register" ? type : "login");
+    const toggleFormType = () => {
+        setFormType(prevState => prevState === "register" ? "login" : "register");
+    };
     return (
-        <LoginForm />
+        formType === "register" ? (
+            <ContainerWrapper title="Регистрация">
+                <RegistrationForm />
+                <p className="mt-3">Already have an account?{" "}
+                    <span className="badge bg-info" role="button" onClick={toggleFormType}>Sign in</span>
+                </p>
+            </ContainerWrapper>
+        ) : (
+            <ContainerWrapper title="Авторизация">
+                <LoginForm/>
+                <p className="mt-3">Don`t have an account?{" "}
+                    <span className="badge bg-warning" role="button" onClick={toggleFormType}>Sign up</span>
+                </p>
+            </ContainerWrapper>
+        )
     );
 };
 

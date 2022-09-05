@@ -12,8 +12,8 @@ export const App = () => {
             <NavBar />
             <Switch>
                 <Route exact path="/" component={Main}/>
-                <Route path="/login" component={Login} />
-                <Route path="/users/:userId?" component={Users} />
+                <Route path="/login/:type?" component={Login} />
+                <Route path="/users/:userId?/:edit?" component={Users} />
                 <Route component={NotFound} />
             </Switch>
         </>
