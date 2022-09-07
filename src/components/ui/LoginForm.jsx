@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TextField from "../common/form/TextField.jsx";
 import CheckBoxField from "../common/form/CheckBoxField.jsx";
-import { validator } from "../../utils/validator.js";
+import { validator } from "../../utils/validation/validator.js";
 
 export const LoginForm = () => {
     const [data, setData] = useState({

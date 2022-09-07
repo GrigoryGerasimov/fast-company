@@ -5,7 +5,7 @@ import SelectField from "../common/form/SelectField.jsx";
 import RadioField from "../common/form/RadioField.jsx";
 import MultiSelectField from "../common/form/MultiSelectField.jsx";
 import CheckBoxField from "../common/form/CheckBoxField.jsx";
-import { validator } from "../../utils/validator.js";
+import { validator } from "../../utils/validation/validator.js";
 
 export const RegistrationForm = () => {
     const [data, setData] = useState({

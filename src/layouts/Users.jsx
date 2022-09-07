@@ -8,7 +8,26 @@ import ContainerWrapper from "../components/ui/ContainerWrapper.jsx";
 const Users = () => {
     const [user, setUser] = useState({});
     const { userId, edit } = useParams();
+    const [qualities, setQualities] = useState([]);
+    const [professions, setProfessions] = useState([]);
 
+    useEffect(() => {
+        API.professions.fetchAll().then(response => {
+            const professionsList = Object.keys(response).map(professionName => ({
+                label: response[professionName].name,
+                value: response[professionName]._id
+            }));
+            setProfessions(professionsList);
+        });
+        API.qualities.fetchAll().then(response => {
+            const qualitiesList = Object.keys(response).map(qualityName => ({
+                label: response[qualityName].name,
+                value: response[qualityName]._id,
+                color: response[qualityName].color
+            }));
+            setQualities(qualitiesList);
+        });
+    }, []);
     useEffect(() => {
         API.users.getById(userId).then(userData => setUser(userData));
     });
@@ -22,7 +41,7 @@ const Users = () => {
                     label: qualityName.name,
                     color: qualityName.color
                 }))
-            }} id={userId}/>}
+            }} id={userId} qualities={qualities} professions={professions}/>}
         </ContainerWrapper>
     ) : (
         <ContainerWrapper title="Страница пользователя">

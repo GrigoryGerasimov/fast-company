@@ -4,11 +4,13 @@ import TextField from "../../../common/form/TextField.jsx";
 import SelectField from "../../../common/form/SelectField.jsx";
 import RadioField from "../../../common/form/RadioField.jsx";
 import MultiSelectField from "../../../common/form/MultiSelectField.jsx";
-import { validator } from "../../../../utils/validator.js";
+import { validator } from "../../../../utils/validation/validator.js";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+import { validatorConfig } from "../../../../utils/validation/validatorConfig.js";
+import { getProfessionById, getQualities } from "../../../../utils/outputFormat.js";
 
-export const EditorPage = ({ user, id }) => {
+export const EditorPage = ({ user, id, qualities, professions }) => {
     const history = useHistory();
     const [data, setData] = useState({
         name: user.name,
@@ -19,51 +21,8 @@ export const EditorPage = ({ user, id }) => {
     });
     const [updatedData, setUpdatedData] = useState({});
     const [updatedUser, setUpdatedUser] = useState({});
-    const [qualities, setQualities] = useState([]);
-    const [professions, setProfessions] = useState([]);
-    useEffect(() => {
-        api.professions.fetchAll().then(response => {
-            const professionsList = Object.keys(response).map(professionName => ({
-                label: response[professionName].name,
-                value: response[professionName]._id
-            }));
-            setProfessions(professionsList);
-        });
-        api.qualities.fetchAll().then(response => {
-            const qualitiesList = Object.keys(response).map(qualityName => ({
-                label: response[qualityName].name,
-                value: response[qualityName]._id,
-                color: response[qualityName].color
-            }));
-            setQualities(qualitiesList);
-        });
-    }, []);
     const [errors, setErrors] = useState({});
-    const validatorConfig = {
-        name: {
-            isRequired: {
-                message: "Имя обязательно для заполнения"
-            }
-        },
-        email: {
-            isRequired: {
-                message: "Электронная почта обязательна для заполнения"
-            },
-            isEmail: {
-                message: "Электронная почта введена некорректно"
-            }
-        },
-        profession: {
-            isRequired: {
-                message: "Профессия обязательна для заполнения"
-            }
-        },
-        qualities: {
-            isRequired: {
-                message: "Личностные качества обязательны для заполнения"
-            }
-        }
-    };
+
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
@@ -79,32 +38,12 @@ export const EditorPage = ({ user, id }) => {
             [target.name]: target.value
         }));
     };
-    const getProfessionById = (id) => {
-        for (const prof of professions) {
-            if (prof.label === id) return { name: prof.label, _id: prof.value };
-        }
-    };
-    const getQualities = (elems) => {
-        const qualitiesArray = [];
-        for (const elem of elems) {
-            for (const quality of qualities) {
-                if (elem.value === quality.value) {
-                    qualitiesArray.push({
-                        name: quality.label,
-                        _id: quality.value,
-                        color: quality.color
-                    });
-                }
-            }
-        }
-        return qualitiesArray;
-    };
     const handleSubmit = evt => {
         setUpdatedData({
             ...user,
             ...data,
-            profession: getProfessionById(data.profession),
-            qualities: getQualities(data.qualities)
+            profession: getProfessionById(data.profession, professions),
+            qualities: getQualities(data.qualities, qualities)
         });
         setTimeout(() => {
             if (updatedUser) history.push(`/users/${updatedUser._id}`);
@@ -169,5 +108,14 @@ export const EditorPage = ({ user, id }) => {
 
 EditorPage.propTypes = {
     user: PropTypes.object,
-    id: PropTypes.string
+    id: PropTypes.string,
+    qualities: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string,
+        color: PropTypes.string
+    })),
+    professions: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    }))
 };
