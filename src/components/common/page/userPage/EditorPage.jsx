@@ -7,7 +7,7 @@ import MultiSelectField from "../../../common/form/MultiSelectField.jsx";
 import { validator } from "../../../../utils/validation/validator.js";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
-import { validatorConfig } from "../../../../utils/validation/validatorConfig.js";
+import { validatorConfig } from "./validatorConfig.js";
 import { getProfessionById, getQualities } from "../../../../utils/outputFormat.js";
 
 export const EditorPage = ({ user, id, qualities, professions }) => {
@@ -58,51 +58,52 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
     }, [updatedData]);
 
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-                label="Имя"
-                name="name"
-                value={data.name}
-                onChange={handleChange}
-                error={errors.name}
-            />
-            <TextField
-                label="Электронная почта"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                error={errors.email}
-            />
-            <SelectField
-                label="Профессия"
-                value={data.profession}
-                onChange={handleChange}
-                defaultOption="Выбрать..."
-                options={professions}
-                error={errors.profession}
-                name="profession"
-            />
-            <RadioField
-                options={[
-                    { name: "Male", value: "male" },
-                    { name: "Female", value: "female" },
-                    { name: "Other", value: "other" }
-                ]}
-                value={data.sex}
-                name="sex"
-                onChange={handleChange}
-                label="Пол"
-            />
-            <MultiSelectField
-                options={qualities}
-                onChange={handleChange}
-                name="qualities"
-                label="Качества"
-                defaultValue={data.qualities}
-                error={errors.qualities}
-            />
-            <button disabled={!isValid} className="btn btn-primary w-100 mx-auto">Обновить</button>
-        </form>
+        qualities.length && professions.length ? (
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    label="Имя"
+                    name="name"
+                    value={data.name}
+                    onChange={handleChange}
+                    error={errors.name}
+                />
+                <TextField
+                    label="Электронная почта"
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
+                    error={errors.email}
+                />
+                <SelectField
+                    label="Профессия"
+                    value={data.profession}
+                    onChange={handleChange}
+                    defaultOption="Выбрать..."
+                    options={professions}
+                    error={errors.profession}
+                    name="profession"
+                />
+                <RadioField
+                    options={[
+                        { name: "Male", value: "male" },
+                        { name: "Female", value: "female" },
+                        { name: "Other", value: "other" }
+                    ]}
+                    value={data.sex}
+                    name="sex"
+                    onChange={handleChange}
+                    label="Пол"
+                />
+                <MultiSelectField
+                    options={qualities}
+                    onChange={handleChange}
+                    name="qualities"
+                    label="Качества"
+                    defaultValue={data.qualities}
+                    error={errors.qualities}
+                />
+                <button disabled={!isValid} className="btn btn-primary w-100 mx-auto">Обновить</button>
+            </form>) : "Загрузка..."
     );
 };
 

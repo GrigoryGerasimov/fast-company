@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { UsersTable } from "../../../ui/UsersTable.jsx";
 import { Pagination } from "../../Pagination.jsx";
-import { paginate } from "../../../../utils/paginate.js";
+import { paginate, getPagesRange } from "../../../../utils/paginate.js";
 import { GroupList } from "../../GroupList.jsx";
 import PropTypes from "prop-types";
 import api from "../../../../api";
 import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
-import getPagesRange from "../../../../utils/getPagesRange.js";
 import _ from "lodash";
 
 export const UsersListPage = () => {
