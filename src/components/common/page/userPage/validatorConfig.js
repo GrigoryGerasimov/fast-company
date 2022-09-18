@@ -21,5 +21,15 @@ export const validatorConfig = {
         isRequired: {
             message: "Личностные качества обязательны для заполнения"
         }
+    },
+    userId: {
+        isRequired: {
+            message: "Пожалуйста выберите отправителя"
+        }
+    },
+    content: {
+        isRequired: {
+            message: "Пожалуйста введите текст комментария"
+        }
     }
 };

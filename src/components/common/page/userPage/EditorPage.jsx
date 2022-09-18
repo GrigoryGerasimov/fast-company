@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../../../api";
+import API from "../../../../api";
 import TextField from "../../../common/form/TextField.jsx";
 import SelectField from "../../../common/form/SelectField.jsx";
 import RadioField from "../../../common/form/RadioField.jsx";
@@ -15,7 +15,7 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
     const [data, setData] = useState({
         name: user.name,
         email: user.email,
-        profession: user.profession.name,
+        profession: user.profession._id,
         sex: user.sex,
         qualities: user.qualities
     });
@@ -54,7 +54,7 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
     };
 
     useEffect(() => {
-        api.users.update(id, updatedData).then(response => setUpdatedUser(response));
+        API.users.update(id, updatedData).then(response => setUpdatedUser(response));
     }, [updatedData]);
 
     return (

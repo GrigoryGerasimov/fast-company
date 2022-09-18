@@ -1,14 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ContainerWrapper = ({ title, children }) => {
+const ContainerWrapper = ({ containerClass, rowClass, children }) => {
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-3 shadow p-4">
-                    <h3 className="mb-4">{title}</h3>
-                    {children}
-                </div>
+        <div className={containerClass}>
+            <div className={rowClass}>
+                {children}
             </div>
         </div>
     );
@@ -16,7 +13,13 @@ const ContainerWrapper = ({ title, children }) => {
 
 export default ContainerWrapper;
 
+ContainerWrapper.defaultProps = {
+    containerClass: "container mt-5",
+    rowClass: "row"
+};
+
 ContainerWrapper.propTypes = {
-    title: PropTypes.string,
+    containerClass: PropTypes.string.isRequired,
+    rowClass: PropTypes.string.isRequired,
     children: PropTypes.any
 };

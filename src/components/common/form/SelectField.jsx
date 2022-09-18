@@ -23,7 +23,7 @@ const SelectField = ({ label, value, onChange, defaultOption, options, error, na
                     {defaultOption}
                 </option>
                 {optionsArray.length && optionsArray.map(option => (
-                    <option key={option.value} value={option.label}>{option.label}</option>
+                    <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
             </select>
             {error && (<div className="invalid-feedback">

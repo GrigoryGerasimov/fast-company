@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import API from "../api";
 import { UserPage, EditorPage } from "../components/common/page/userPage";
 import { UsersListPage } from "../components/common/page/userListPage";
@@ -8,8 +8,10 @@ import ContainerWrapper from "../components/ui/ContainerWrapper.jsx";
 const Users = () => {
     const [user, setUser] = useState({});
     const { userId, edit } = useParams();
+    const history = useHistory();
     const [qualities, setQualities] = useState([]);
     const [professions, setProfessions] = useState([]);
+    const [userComments, setUserComments] = useState([]);
 
     useEffect(() => {
         API.professions.fetchAll().then(response => {
@@ -30,22 +32,38 @@ const Users = () => {
     }, []);
     useEffect(() => {
         API.users.getById(userId).then(userData => setUser(userData));
+        API.comments.fetchCommentsForUser(userId).then(userComments => {
+            const sortedComments = userComments.sort((commentA, commentB) => commentB.created_at - commentA.created_at);
+            setUserComments(sortedComments);
+        });
     });
 
     return userId ? edit ? (
-        <ContainerWrapper title="Изменение данных">
-            {user._id && <EditorPage user={{
-                ...user,
-                qualities: user.qualities.map(qualityName => ({
-                    value: qualityName._id,
-                    label: qualityName.name,
-                    color: qualityName.color
-                }))
-            }} id={userId} qualities={qualities} professions={professions}/>}
-        </ContainerWrapper>
+        <>
+            <button
+                className="btn btn-primary offset-1 mt-3"
+                onClick={() => history.push(`/users/${userId}`)}
+            >
+                Назад
+            </button>
+            <ContainerWrapper>
+                <div className="col-md-6 offset-3 shadow p-4">
+                    <h3 className="mb-4">Изменение данных</h3>
+                    {user._id && <EditorPage user={{
+                        ...user,
+                        qualities: user.qualities.map(qualityName => ({
+                            value: qualityName._id,
+                            label: qualityName.name,
+                            color: qualityName.color
+                        }))
+                    }} id={userId} qualities={qualities} professions={professions}/>}
+                </div>
+            </ContainerWrapper>
+        </>
     ) : (
-        <ContainerWrapper title="Страница пользователя">
-            <UserPage user={user} id={userId} />
+        <ContainerWrapper containerClass="container" rowClass="row gutters-sm">
+            <h3 className="mb-4">Страница пользователя</h3>
+            <UserPage user={user} id={userId} userComments={userComments}/>
         </ContainerWrapper>
     ) : <UsersListPage />;
 };
