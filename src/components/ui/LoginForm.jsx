@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import TextField from "../common/form/TextField.jsx";
-import { validator } from "../../utils/validator.js";
+import CheckBoxField from "../common/form/CheckBoxField.jsx";
+import { validator } from "../../utils/validation/validator.js";
 
 export const LoginForm = () => {
     const [data, setData] = useState({
         email: "",
-        password: ""
+        password: "",
+        stayOn: false
     });
     const [errors, setErrors] = useState({});
     const validatorConfig = {
@@ -42,11 +44,10 @@ export const LoginForm = () => {
     useEffect(() => {
         validate();
     }, [data]);
-    const handleChange = ({ target }) => {
-        const { name, value } = target;
+    const handleChange = (target) => {
         setData(prevState => ({
             ...prevState,
-            [name]: value
+            [target.name]: target.value
         }));
     };
     const handleSubmit = evt => {
@@ -55,30 +56,30 @@ export const LoginForm = () => {
         if (!isValid) return false;
     };
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-3 shadow p-4">
-                    <h3 className="mb-4">Авторизация</h3>
-                    <form onSubmit={handleSubmit}>
-                        <TextField
-                            label="Логин"
-                            name="email"
-                            value={data.email}
-                            onChange={handleChange}
-                            error={errors.email}
-                        />
-                        <TextField
-                            label="Пароль"
-                            type="password"
-                            name="password"
-                            value={data.password}
-                            onChange={handleChange}
-                            error={errors.password}
-                        />
-                        <button disabled={!isValid} className="btn btn-primary w-100 mx-auto">Отправить</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="Логин"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+            />
+            <TextField
+                label="Пароль"
+                type="password"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+                error={errors.password}
+            />
+            <CheckBoxField
+                value={data.stayOn}
+                name="stayOn"
+                onChange={handleChange}
+            >
+                Оставаться в системе
+            </CheckBoxField>
+            <button disabled={!isValid} className="btn btn-primary w-100 mx-auto">Отправить</button>
+        </form>
     );
 };
