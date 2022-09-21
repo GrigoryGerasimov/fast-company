@@ -12,18 +12,24 @@ const Login = () => {
     };
     return (
         formType === "register" ? (
-            <ContainerWrapper title="Регистрация">
-                <RegistrationForm />
-                <p className="mt-3">Already have an account?{" "}
-                    <span className="badge bg-info" role="button" onClick={toggleFormType}>Sign in</span>
-                </p>
+            <ContainerWrapper>
+                <div className="col-md-6 offset-3 shadow p-4">
+                    <h3 className="mb-4">Регистрация</h3>
+                    <RegistrationForm />
+                    <p className="mt-3">Already have an account?{" "}
+                        <span className="badge bg-info" role="button" onClick={toggleFormType}>Sign in</span>
+                    </p>
+                </div>
             </ContainerWrapper>
         ) : (
-            <ContainerWrapper title="Авторизация">
-                <LoginForm/>
-                <p className="mt-3">Don`t have an account?{" "}
-                    <span className="badge bg-warning" role="button" onClick={toggleFormType}>Sign up</span>
-                </p>
+            <ContainerWrapper>
+                <div className="col-md-6 offset-3 shadow p-4">
+                    <h3 className="mb-4">Авторизация</h3>
+                    <LoginForm/>
+                    <p className="mt-3">Don`t have an account?{" "}
+                        <span className="badge bg-warning" role="button" onClick={toggleFormType}>Sign up</span>
+                    </p>
+                </div>
             </ContainerWrapper>
         )
     );

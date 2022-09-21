@@ -1,6 +1,6 @@
 export const getProfessionById = (id, professions) => {
     for (const prof of professions) {
-        if (prof.label === id) return { name: prof.label, _id: prof.value };
+        if (prof.value === id) return { name: prof.label, _id: prof.value };
     }
 };
 export const getQualities = (elems, qualities) => {

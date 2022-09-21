@@ -4,7 +4,7 @@ import { Pagination } from "../../Pagination.jsx";
 import { paginate, getPagesRange } from "../../../../utils/paginate.js";
 import { GroupList } from "../../GroupList.jsx";
 import PropTypes from "prop-types";
-import api from "../../../../api";
+import API from "../../../../api";
 import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
 import _ from "lodash";
@@ -13,7 +13,7 @@ export const UsersListPage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        api.users.fetchAll().then((response) => setUsers(response));
+        API.users.fetchAll().then((response) => setUsers(response));
     }, []);
 
     const handleDelete = (userId) =>
@@ -57,7 +57,7 @@ export const UsersListPage = () => {
         setSortBy(item);
     };
     useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
+        API.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
     useEffect(() => {
         setCurrentPage(1);
