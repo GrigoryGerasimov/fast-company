@@ -16,10 +16,7 @@ const SelectField = ({
     const getSelectClassName = () => {
         return `form-select ${error ? "is-invalid" : ""}`;
     };
-    const optionsArray =
-        !Array.isArray(options) && typeof options === "object"
-            ? Object.values(options)
-            : options;
+    const optionsArray = !Array.isArray(options) && typeof options === "object" ? Object.values(options) : options;
     return (
         <div className="mb-4">
             <label htmlFor={name} className="form-label">
@@ -37,8 +34,8 @@ const SelectField = ({
                 </option>
                 {optionsArray.length &&
                     optionsArray.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
+                        <option key={option.value || option._id} value={option.value || option._id}>
+                            {option.label || option.name}
                         </option>
                     ))}
             </select>

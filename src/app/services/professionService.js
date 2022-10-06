@@ -11,8 +11,8 @@ export const professionService = {
         const { data } = await httpService.get(professionEndpoint);
         return data;
     },
-    update: async (id, content) => {
-        const { data } = await httpService.put(professionEndpoint + id, content);
+    update: async (id, payload) => {
+        const { data } = await httpService.put(professionEndpoint + id, payload);
         return data;
     },
     delete: async id => {

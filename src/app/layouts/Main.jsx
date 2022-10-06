@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useMockData } from "../hooks";
 
 const Main = () => {
     const { error, initialize, progress, status } = useMockData();
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         initialize();
-    };
+    }, []);
     return (
         <div className="container mt-5">
             <h1>Main Page</h1>
