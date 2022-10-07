@@ -1,4 +1,4 @@
-export const validator = (data, config) => {
+export const validator = (data, config, users = null) => {
     const errors = {};
     const validate = (validateMethod, data, config) => {
         let statusValidate;
@@ -14,18 +14,19 @@ export const validator = (data, config) => {
             break;
         }
         case "isEmail": {
-            const emailRegExp = /\S+@\S+\.\S+/g;
-            statusValidate = !emailRegExp.test(data);
+            statusValidate = !/\S+@\S+\.\S+/g.test(data);
+            break;
+        }
+        case "emailAlreadyExists": {
+            statusValidate = users && users.find(user => user.email === data);
             break;
         }
         case "hasCapitalChar": {
-            const capitalRegExp = /[A-Z]+/g;
-            statusValidate = !capitalRegExp.test(data);
+            statusValidate = !/[A-Z]+/g.test(data);
             break;
         }
         case "hasDigit": {
-            const digitRegExp = /\d+/g;
-            statusValidate = !digitRegExp.test(data);
+            statusValidate = !/\d+/g.test(data);
             break;
         }
         case "min": {

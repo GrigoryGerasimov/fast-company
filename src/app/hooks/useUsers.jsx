@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { userService } from "../services/userService.js";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { useAuth } from "./useAuth.jsx";
 
 const UserContext = React.createContext();
 
@@ -11,6 +12,8 @@ export const UserProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [deletedUser, setDeletedUser] = useState({});
+    const { newUser } = useAuth();
 
     const errorCatcher = error => {
         const { message } = error.response.data;
@@ -31,16 +34,25 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const deleteUser = async userId => {
+        try {
+            const deletedUser = await userService.delete(userId);
+            setDeletedUser(deletedUser);
+        } catch (error) {
+            errorCatcher(error);
+        }
+    };
+
     useEffect(() => {
         getUsers();
-    }, []);
+    }, [newUser, deletedUser]);
 
     useEffect(() => {
         error && toast.error(error);
         setError(null);
     }, [error]);
 
-    return <UserContext.Provider value={{ users, getUserById }}>{!isLoading ? children : "Loading..."}</UserContext.Provider>;
+    return <UserContext.Provider value={{ users, getUserById, deleteUser }}>{!isLoading ? children : "Loading..."}</UserContext.Provider>;
 };
 
 UserProvider.propTypes = {

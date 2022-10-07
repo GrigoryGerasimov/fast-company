@@ -7,14 +7,17 @@ import MultiSelectField from "../../common/form/MultiSelectField.jsx";
 import CheckBoxField from "../../common/form/CheckBoxField.jsx";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useQualities, useProfessions, useAuth } from "../../../hooks";
+import { useQualities, useProfessions, useAuth, useUsers } from "../../../hooks";
 import { toast } from "react-toastify";
 
 export const RegistrationForm = () => {
     const history = useHistory();
+    const { users } = useUsers();
     const [data, setData] = useState({
         email: "",
         password: "",
+        firstName: "",
+        lastName: "",
         profession: "",
         gender: "male",
         qualities: [],
@@ -30,7 +33,7 @@ export const RegistrationForm = () => {
     const [errors, setErrors] = useState({});
 
     const validate = useCallback(() => {
-        const errors = validator(data, validatorConfig);
+        const errors = validator(data, validatorConfig, users);
         setErrors(errors);
         return Object.keys(errors).length;
     }, [data]);
@@ -53,6 +56,7 @@ export const RegistrationForm = () => {
         if (!isValid) return false;
         const newData = {
             ...data,
+            name: `${data.firstName} ${data.lastName}`,
             qualities: data.qualities.map(quality => quality.value)
         };
         try {
@@ -79,6 +83,20 @@ export const RegistrationForm = () => {
                 value={data.password}
                 onChange={handleChange}
                 error={errors.password}
+            />
+            <TextField
+                label="Имя"
+                name="firstName"
+                value={data.firstName}
+                onChange={handleChange}
+                error={errors.firstName}
+            />
+            <TextField
+                label="Фамилия"
+                name="lastName"
+                value={data.lastName}
+                onChange={handleChange}
+                error={errors.lastName}
             />
             <SelectField
                 label="Профессия"

@@ -14,9 +14,9 @@ export const GroupList = ({
                 <li
                     key={item[valueProp]}
                     className={`list-group-item ${
-                        item === selectedItem ? "active" : ""
+                        item[valueProp] === selectedItem ? "active" : ""
                     }`}
-                    onClick={() => onItemSelect(item)}
+                    onClick={() => onItemSelect(item[valueProp])}
                     role="button"
                 >
                     {item[contentProp]}
@@ -25,9 +25,9 @@ export const GroupList = ({
                 <li
                     key={items[item]?.[valueProp]}
                     className={`list-group-item ${
-                        items[item] === selectedItem ? "active" : ""
+                        items[item]?.[valueProp] === selectedItem ? "active" : ""
                     }`}
-                    onClick={() => onItemSelect(items[item])}
+                    onClick={() => onItemSelect(items[item]?.[valueProp])}
                     role="button"
                 >
                     {items[item]?.[contentProp]}
@@ -49,5 +49,5 @@ GroupList.propTypes = {
     contentProp: PropTypes.oneOfType([PropTypes.string, PropTypes.symbol])
         .isRequired,
     onItemSelect: PropTypes.func.isRequired,
-    selectedItem: PropTypes.object
+    selectedItem: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
 };
