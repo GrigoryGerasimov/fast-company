@@ -5,6 +5,9 @@ export const validatorConfig = {
         },
         isEmail: {
             message: "Электронная почта введена некорректно"
+        },
+        emailAlreadyExists: {
+            message: "(Валидация до отправки формы) Пользователь с данным адресом электронной почты уже существует"
         }
     },
     password: {
@@ -20,6 +23,16 @@ export const validatorConfig = {
         min: {
             message: "Пароль должен состоять минимум из 8 символов",
             value: 8
+        }
+    },
+    firstName: {
+        isRequired: {
+            message: "Имя обязательно для заполнения"
+        }
+    },
+    lastName: {
+        isRequired: {
+            message: "Фамилия обязательна для заполнения"
         }
     },
     profession: {

@@ -14,7 +14,7 @@ const { firebase } = authConstants;
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState({});
+    const [newUser, setNewUser] = useState({});
     const [error, setError] = useState(null);
 
     const errorCatcher = error => {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     const createUser = async data => {
         try {
             const { content } = await userService.update(data._id, data);
-            setCurrentUser(content);
+            setNewUser(content);
         } catch (error) {
             errorCatcher(error);
         }
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ signUp, signIn, createUser, currentUser }}>
+        <AuthContext.Provider value={{ signUp, signIn, createUser, newUser }}>
             {children}
         </AuthContext.Provider>
     );

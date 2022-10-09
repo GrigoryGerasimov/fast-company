@@ -9,15 +9,17 @@ import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
 import _ from "lodash";
 import { useUsers } from "../../../../hooks";
+import { toast } from "react-toastify";
 
 export const UsersListPage = () => {
-    const { users } = useUsers();
+    const { users, deleteUser } = useUsers();
 
-    const handleDelete = (userId) => {
-        // setUsers((prevState) =>
-        //     prevState.filter((user) => user._id !== userId)
-        // );
-        console.log(userId);
+    const handleDelete = async userId => {
+        try {
+            await deleteUser(userId);
+        } catch (error) {
+            toast.error(error);
+        }
     };
 
     const handleToggleBookmark = (userId) => {
@@ -64,7 +66,9 @@ export const UsersListPage = () => {
         setCurrentPage(1);
     }, [selectedProf]);
 
-    const updatedUsers = users.filter((user) => selectedProf ? JSON.stringify(user.profession) === JSON.stringify(selectedProf) : searchValue ? user.name.toLowerCase().includes(searchValue.toLowerCase()) : user);
+    const updatedUsers = users.filter((user) => {
+        return selectedProf ? user.profession === selectedProf : searchValue ? user.name.toLowerCase().includes(searchValue.toLowerCase()) : user;
+    });
 
     const sortedUsers = _.orderBy(updatedUsers, [sortBy.path], [sortBy.order]);
     const count = updatedUsers.length;
