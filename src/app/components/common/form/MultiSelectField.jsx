@@ -10,10 +10,7 @@ const MultiSelectField = ({
     defaultValue,
     error
 }) => {
-    const optionsArray =
-        !Array.isArray(options) && typeof options === "object"
-            ? Object.values(options)
-            : options;
+    const optionsArray = !Array.isArray(options) && typeof options === "object" ? Object.values(options) : options;
     const handleChange = (value) => {
         onChange({ name, value });
     };

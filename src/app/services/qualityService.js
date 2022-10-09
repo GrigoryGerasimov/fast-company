@@ -11,8 +11,8 @@ export const qualityService = {
         const { data } = await httpService.get(qualityEndpoint);
         return data;
     },
-    update: async (id, content) => {
-        const { data } = await httpService.put(qualityEndpoint + id, content);
+    update: async (id, payload) => {
+        const { data } = await httpService.put(qualityEndpoint + id, payload);
         return data;
     },
     delete: async id => {

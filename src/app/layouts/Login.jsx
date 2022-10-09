@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { LoginForm } from "../components/ui/LoginForm.jsx";
-import { RegistrationForm } from "../components/ui/RegistrationForm.jsx";
+import { LoginForm } from "../components/ui/login/LoginForm.jsx";
+import { RegistrationForm } from "../components/ui/registration/RegistrationForm.jsx";
 import ContainerWrapper from "../components/ui/ContainerWrapper.jsx";
 
 const Login = () => {

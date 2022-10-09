@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 export const TableBody = ({ data, columns }) => {
     const renderDataItem = (item, column) => {
         const { component } = column;
-        if (component)
-            return typeof component === "function"
-                ? component(item)
-                : component;
-        else return _.get(item, column.path);
+        if (component) {
+            return typeof component === "function" ? component(item) : component;
+        } else {
+            return _.get(item, column.path);
+        }
     };
 
     return (

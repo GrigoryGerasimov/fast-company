@@ -11,7 +11,7 @@ import { validatorConfig } from "./validatorConfig.js";
 import {
     getProfessionById,
     getQualities
-} from "../../../../utils/outputFormat.js";
+} from "../../../../utils/formatting/outputFormat.js";
 
 export const EditorPage = ({ user, id, qualities, professions }) => {
     const history = useHistory();

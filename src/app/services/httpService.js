@@ -3,9 +3,11 @@ import { logger } from "./loggingService.js";
 import configFile from "../config.json";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL = configFile.apiEndpoint;
+const http = axios.create({
+    baseURL: configFile.apiEndpoint
+});
 
-axios.interceptors.request.use(
+http.interceptors.request.use(
     config => {
         if (configFile.isFireBase) {
             config.url = !config.url.endsWith(".json") ? `${(/\/$/g.test(config.url) ? config.url.slice(0, -1) : config.url)}.json` : config.url;
@@ -23,7 +25,7 @@ const transformData = data => {
     })) : [];
 };
 
-axios.interceptors.response.use(
+http.interceptors.response.use(
     (res) => {
         if (configFile.isFireBase) {
             res.data = { content: transformData(res.data) };
@@ -41,9 +43,9 @@ axios.interceptors.response.use(
 );
 
 export const httpService = {
-    get: axios.get,
-    put: axios.put,
-    post: axios.post,
-    delete: axios.delete,
-    patch: axios.patch
+    get: http.get,
+    put: http.put,
+    post: http.post,
+    delete: http.delete,
+    patch: http.patch
 };

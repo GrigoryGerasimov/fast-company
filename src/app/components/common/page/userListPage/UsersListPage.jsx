@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { UsersTable } from "../../../ui/UsersTable.jsx";
 import { Pagination } from "../../Pagination.jsx";
-import { paginate, getPagesRange } from "../../../../utils/paginate.js";
+import { paginate, getPagesRange } from "../../../../utils/pagination/paginate.js";
 import { GroupList } from "../../GroupList.jsx";
 import PropTypes from "prop-types";
 import API from "../../../../api";
