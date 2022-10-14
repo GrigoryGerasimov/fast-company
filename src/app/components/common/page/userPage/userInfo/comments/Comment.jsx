@@ -1,12 +1,14 @@
 import React from "react";
 import { UserPic, CommentTimestamp } from "../index";
 import PropTypes from "prop-types";
+import { UserName } from "../../../../UserName.jsx";
 
 const Comment = ({
     _id,
     created_at: timestamp,
     content,
     sender,
+    currentUser,
     onCommentDelete
 }) => {
     return (
@@ -15,6 +17,7 @@ const Comment = ({
                 <div className="col">
                     <div className="d-flex flex-start">
                         <UserPic
+                            source={sender.image}
                             className="rounded-circle shadow-1-strong me-3"
                             width="65"
                             height="65"
@@ -23,17 +26,19 @@ const Comment = ({
                             <div className="mb-4">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1 ">
-                                        {sender}{" "}
+                                        <UserName name={sender.name} id={sender._id}/>
                                         <CommentTimestamp
                                             timestamp={timestamp}
                                         />
                                     </p>
-                                    <button
-                                        className="btn btn-sm text-primary d-flex align-items-center"
-                                        onClick={() => onCommentDelete(_id)}
-                                    >
-                                        <i className="bi bi-x-lg"></i>
-                                    </button>
+                                    {sender === currentUser && (
+                                        <button
+                                            className="btn btn-sm text-primary d-flex align-items-center"
+                                            onClick={() => onCommentDelete(_id)}
+                                        >
+                                            <i className="bi bi-x-lg"></i>
+                                        </button>
+                                    )}
                                 </div>
                                 <p className="small mb-0">{content}</p>
                             </div>
@@ -51,6 +56,7 @@ Comment.propTypes = {
     _id: PropTypes.string,
     content: PropTypes.string,
     created_at: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    sender: PropTypes.string,
+    sender: PropTypes.object,
+    currentUser: PropTypes.object,
     onCommentDelete: PropTypes.func
 };

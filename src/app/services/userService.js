@@ -16,11 +16,11 @@ export const userService = {
         return data;
     },
     update: async (id, payload) => {
-        const { data } = await httpService.put(userEndpoint + id, payload);
-        return data;
+        await httpService.put(userEndpoint + id, payload);
+        return id;
     },
     delete: async (id) => {
-        const { data } = await httpService.delete(userEndpoint + id);
-        return data;
+        await httpService.delete(userEndpoint + id);
+        return id;
     }
 };

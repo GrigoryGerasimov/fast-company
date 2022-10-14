@@ -1,24 +1,35 @@
-import { setIntoStorage } from "../utils/storage/setIntoStorage.js";
-import { getFromStorage } from "../utils/storage/getFromStorage.js";
+import { setIntoStorage, getFromStorage } from "../utils/storage";
 import { authConstants } from "../utils/constants/authConstants.js";
 
-export const setTokens = ({ refreshToken, idToken, expiresIn = 3600 }) => {
+const { TOKEN_KEY, REFRESH_KEY, EXPIRE_DATE_KEY, USERID_KEY } = authConstants.jwt;
+
+export const setTokens = ({ refreshToken, idToken, localId, expiresIn = 3600 }) => {
     const expireDate = Date.now() + (expiresIn * 1000);
-    setIntoStorage(authConstants.jwt.TOKEN_KEY, idToken);
-    setIntoStorage(authConstants.jwt.REFRESH_KEY, refreshToken);
-    setIntoStorage(authConstants.jwt.EXPIRE_DATE_KEY, expireDate);
+    setIntoStorage(TOKEN_KEY, idToken);
+    setIntoStorage(REFRESH_KEY, refreshToken);
+    setIntoStorage(EXPIRE_DATE_KEY, expireDate);
+    setIntoStorage(USERID_KEY, localId);
 };
 
 export const getTokens = () => {
-    const accessToken = getFromStorage(authConstants.jwt.TOKEN_KEY);
-    const refreshToken = getFromStorage(authConstants.jwt.REFRESH_KEY);
-    const tokenExpireDate = getFromStorage(authConstants.jwt.EXPIRE_DATE_KEY);
-    return { accessToken, refreshToken, tokenExpireDate };
+    const accessToken = getFromStorage(TOKEN_KEY);
+    const refreshToken = getFromStorage(REFRESH_KEY);
+    const tokenExpireDate = getFromStorage(EXPIRE_DATE_KEY);
+    const userId = getFromStorage(USERID_KEY);
+    return { accessToken, refreshToken, tokenExpireDate, userId };
+};
+
+export const removeTokens = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_KEY);
+    localStorage.removeItem(EXPIRE_DATE_KEY);
+    localStorage.removeItem(USERID_KEY);
 };
 
 const localStorageService = {
     setTokens,
-    getTokens
+    getTokens,
+    removeTokens
 };
 
 export default localStorageService;

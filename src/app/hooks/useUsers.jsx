@@ -3,6 +3,7 @@ import { userService } from "../services/userService.js";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { useAuth } from "./useAuth.jsx";
+import Loader from "../components/common/Loader.jsx";
 
 const UserContext = React.createContext();
 
@@ -10,15 +11,15 @@ export const useUsers = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
     const [users, setUsers] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [deletedUser, setDeletedUser] = useState({});
-    const { newUser } = useAuth();
+    const [deletedUserId, setDeletedUserId] = useState("");
+    const { currentUser, newUser } = useAuth();
 
     const errorCatcher = error => {
         const { message } = error.response.data;
         setError(message);
-        setIsLoading(false);
+        setLoading(false);
     };
 
     const getUserById = id => users.find(user => user._id === id);
@@ -26,8 +27,9 @@ export const UserProvider = ({ children }) => {
     const getUsers = async () => {
         try {
             const { content } = await userService.getAll();
-            setUsers(content);
-            setIsLoading(false);
+            const filteredContent = content.filter(user => user._id !== currentUser._id);
+            setUsers(filteredContent);
+            setLoading(false);
             return content;
         } catch (error) {
             errorCatcher(error);
@@ -36,8 +38,8 @@ export const UserProvider = ({ children }) => {
 
     const deleteUser = async userId => {
         try {
-            const deletedUser = await userService.delete(userId);
-            setDeletedUser(deletedUser);
+            const deletedId = await userService.delete(userId);
+            setDeletedUserId(deletedId);
         } catch (error) {
             errorCatcher(error);
         }
@@ -45,14 +47,14 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         getUsers();
-    }, [newUser, deletedUser]);
+    }, [newUser, deletedUserId]);
 
     useEffect(() => {
         error && toast.error(error);
         setError(null);
     }, [error]);
 
-    return <UserContext.Provider value={{ users, getUserById, deleteUser }}>{!isLoading ? children : "Loading..."}</UserContext.Provider>;
+    return <UserContext.Provider value={{ users, getUserById, deleteUser }}>{!isLoading ? children : <Loader/>}</UserContext.Provider>;
 };
 
 UserProvider.propTypes = {

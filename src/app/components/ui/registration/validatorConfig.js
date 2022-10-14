@@ -28,11 +28,19 @@ export const validatorConfig = {
     firstName: {
         isRequired: {
             message: "Имя обязательно для заполнения"
+        },
+        min: {
+            message: "Имя должно состоять минимум из 2 символов",
+            value: 2
         }
     },
     lastName: {
         isRequired: {
             message: "Фамилия обязательна для заполнения"
+        },
+        min: {
+            message: "Фамилия должна состоять минимум из 2 символов",
+            value: 2
         }
     },
     profession: {

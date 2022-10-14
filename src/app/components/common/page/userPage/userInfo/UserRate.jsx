@@ -12,5 +12,5 @@ export const UserRate = React.memo(({ rate }) => {
 });
 
 UserRate.propTypes = {
-    rate: PropTypes.number
+    rate: PropTypes.string
 };

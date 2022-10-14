@@ -3,3 +3,4 @@ export { useUsers, UserProvider } from "./useUsers.jsx";
 export { useQualities, QualitiesProvider } from "./useQualities.jsx";
 export { useMockData } from "./useMockData.jsx";
 export { useAuth, AuthProvider } from "./useAuth.jsx";
+export { useComments, CommentsProvider } from "./useComments.jsx";

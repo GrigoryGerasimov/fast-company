@@ -7,8 +7,10 @@ import {
     UserMeetingsCard,
     CommentsList
 } from "./userInfo";
+import Loader from "../../Loader.jsx";
+import { CommentsProvider } from "../../../../hooks";
 
-export const UserPage = ({ user, id, userComments }) => {
+export const UserPage = ({ user, id }) => {
     const history = useHistory();
 
     return user?._id ? (
@@ -16,12 +18,13 @@ export const UserPage = ({ user, id, userComments }) => {
             <div className="col-md-4 mb-3">
                 <UserInfoCard
                     id={id}
+                    imgSource={user.image}
                     name={user.name}
-                    profession={user.profession.name}
+                    profession={user.profession}
                     rate={user.rate}
                 />
-                <UserQualitiesCard qualities={user.qualities} />
-                <UserMeetingsCard meetings={user.completedMeetings} />
+                <UserQualitiesCard qualities={user.qualities}/>
+                <UserMeetingsCard meetings={user.completedMeetings}/>
                 <button
                     type="button"
                     className="btn btn-primary w-100"
@@ -32,16 +35,17 @@ export const UserPage = ({ user, id, userComments }) => {
             </div>
 
             <div className="col-md-8">
-                <CommentsList id={id} userComments={userComments} />
+                <CommentsProvider>
+                    <CommentsList/>
+                </CommentsProvider>
             </div>
         </>
     ) : (
-        <h1>Loading</h1>
+        <Loader/>
     );
 };
 
 UserPage.propTypes = {
     id: PropTypes.string,
-    user: PropTypes.object,
-    userComments: PropTypes.arrayOf(PropTypes.object)
+    user: PropTypes.object
 };

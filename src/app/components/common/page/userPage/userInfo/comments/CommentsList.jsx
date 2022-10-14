@@ -1,35 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
-import API from "../../../../../../api";
+import React from "react";
+import { useParams } from "react-router-dom";
 import { Comment, NewComment } from "./index";
-import PropTypes from "prop-types";
+import { useUsers, useComments, useAuth } from "../../../../../../hooks";
 
-const CommentsList = ({ id, userComments }) => {
-    const [users, setUsers] = useState([]);
+const CommentsList = () => {
+    const { userId } = useParams();
+    const { getUserById } = useUsers();
+    const { currentUser } = useAuth();
+    const { comments, createComment, deleteComment } = useComments();
 
-    const handleRequest = useCallback(() => {
-        API.users.fetchAll().then((userData) => {
-            const selectedUserInfo = userData.map((data) => ({
-                value: data._id,
-                label: data.name
-            }));
-            setUsers(selectedUserInfo);
-        });
-    }, []);
-
-    useEffect(() => {
-        handleRequest();
-    }, [handleRequest]);
-
-    const handleCommentAdd = useCallback(
-        (data) =>
-            API.comments.add(data).then((response) => console.log(response)),
-        []
-    );
-    const handleCommentDelete = useCallback(
-        (id) =>
-            API.comments.remove(id).then((response) => console.log(response)),
-        []
-    );
+    const handleCommentAdd = data => createComment(data);
+    const handleCommentDelete = commentId => deleteComment(commentId);
 
     return (
         <>
@@ -38,8 +19,6 @@ const CommentsList = ({ id, userComments }) => {
                 <div className="card-body ">
                     <h2>New comment</h2>
                     <NewComment
-                        currentUserId={id}
-                        users={users}
                         onCommentAdd={handleCommentAdd}
                     />
                 </div>
@@ -48,37 +27,19 @@ const CommentsList = ({ id, userComments }) => {
                 <div className="card-body">
                     <h2>Comments</h2>
                     <hr />
-                    {Array.isArray(userComments) ? userComments.map((comment) => {
-                        const sender = users.find(
-                            (user) => user.value === comment.userId
-                        );
+                    {comments.map((comment) => {
+                        const sender = getUserById(comment.userId) ?? currentUser;
                         return (
-                            sender?.value && (
-                                <Comment
-                                    key={comment._id}
-                                    {...comment}
-                                    sender={sender.label}
-                                    onCommentDelete={handleCommentDelete}
-                                />
-                            )
+                            <Comment
+                                key={comment._id}
+                                {...comment}
+                                sender={sender}
+                                currentUser={currentUser}
+                                onCommentDelete={handleCommentDelete}
+                            />
                         );
-                    }) : Object.keys(userComments).map((comment) => {
-                        const sender = users.find(
-                            (user) =>
-                                user.value ===
-                                      userComments[comment].userId
-                        );
-                        return (
-                            sender?.value && (
-                                <Comment
-                                    key={userComments[comment]._id}
-                                    {...userComments[comment]}
-                                    sender={sender.label}
-                                    onCommentDelete={handleCommentDelete}
-                                />
-                            )
-                        );
-                    })}
+                    }
+                    )}
                 </div>
             </div>
         </>
@@ -86,11 +47,3 @@ const CommentsList = ({ id, userComments }) => {
 };
 
 export default CommentsList;
-
-CommentsList.propTypes = {
-    id: PropTypes.string,
-    userComments: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.object),
-        PropTypes.object
-    ])
-};

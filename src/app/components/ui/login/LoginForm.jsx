@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import TextField from "../../common/form/TextField.jsx";
-import CheckBoxField from "../../common/form/CheckBoxField.jsx";
+import { TextField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
 import { useAuth } from "../../../hooks";
-import { toast } from "react-toastify";
 
 export const LoginForm = () => {
     const history = useHistory();
@@ -41,8 +39,7 @@ export const LoginForm = () => {
         if (!isValid) return false;
         try {
             await signIn(data);
-            toast.success(`Вы успешно вошли в систему под адресом ${data.email}`);
-            history.replace("/");
+            history.replace(history.location.state ? history.location.state.from.pathname : "/");
         } catch (error) {
             setErrors(error);
         }

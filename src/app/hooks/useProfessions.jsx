@@ -8,7 +8,7 @@ const ProfessionsContext = React.createContext();
 export const useProfessions = () => useContext(ProfessionsContext);
 
 export const ProfessionsProvider = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [professions, setProfessions] = useState([]);
     const [error, setError] = useState(null);
 
@@ -22,7 +22,7 @@ export const ProfessionsProvider = ({ children }) => {
     const errorCatcher = error => {
         const { message } = error.response.data;
         setError(message);
-        setIsLoading(false);
+        setLoading(false);
     };
 
     const getProfession = id => professions.find(prof => prof._id === id);
@@ -30,8 +30,9 @@ export const ProfessionsProvider = ({ children }) => {
     const getProfessionsList = async () => {
         try {
             const { content } = await professionService.getAll();
-            setProfessions(content);
-            setIsLoading(false);
+            const professionsArray = !Array.isArray(content) && typeof content === "object" ? Object.values(content) : content;
+            setProfessions(professionsArray);
+            setLoading(false);
         } catch (error) {
             errorCatcher(error);
         }
