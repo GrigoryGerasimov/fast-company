@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
+import { convertObjectToArrayFormat } from "../../../utils/formatting/convertObjectToArrayFormat.js";
 
 const SelectField = ({
     label,
@@ -10,13 +11,14 @@ const SelectField = ({
     error,
     name
 }) => {
-    const handleChange = ({ target }) => {
+    const handleChange = useCallback(({ target }) => {
         onChange({ name: target.name, value: target.value });
-    };
-    const getSelectClassName = () => {
-        return `form-select ${error ? "is-invalid" : ""}`;
-    };
-    const optionsArray = !Array.isArray(options) && typeof options === "object" ? Object.values(options) : options;
+    }, [onChange]);
+
+    const getSelectClassName = () => `form-select ${error ? "is-invalid" : ""}`;
+
+    const optionsArray = useMemo(() => convertObjectToArrayFormat(options), [options]);
+
     return (
         <div className="mb-4">
             <label htmlFor={name} className="form-label">
@@ -44,7 +46,7 @@ const SelectField = ({
     );
 };
 
-export default SelectField;
+export default React.memo(SelectField);
 
 SelectField.propTypes = {
     label: PropTypes.string,

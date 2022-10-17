@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 const CheckBoxField = ({ name, value, onChange, children, error }) => {
-    const handleChange = () => {
+    const handleChange = useCallback(() => {
         onChange({ name, value: !value });
-    };
-    const getCheckBoxClassName = () => {
-        return `form-check-input ${error ? "is-invalid" : ""}`;
-    };
+    }, [onChange]);
+
+    const getCheckBoxClassName = () => `form-check-input ${error ? "is-invalid" : ""}`;
+
     return (
         <div className="form-check mb-4">
             <input
@@ -26,7 +26,7 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
     );
 };
 
-export default CheckBoxField;
+export default React.memo(CheckBoxField);
 
 CheckBoxField.propTypes = {
     name: PropTypes.string,

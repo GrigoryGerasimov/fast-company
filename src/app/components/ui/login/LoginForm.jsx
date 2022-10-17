@@ -4,8 +4,9 @@ import { TextField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
 import { useAuth } from "../../../hooks";
+import PropTypes from "prop-types";
 
-export const LoginForm = () => {
+export const LoginForm = ({ info }) => {
     const history = useHistory();
     const [data, setData] = useState({
         email: "",
@@ -75,6 +76,11 @@ export const LoginForm = () => {
             >
                 Отправить
             </button>
+            {info}
         </form>
     );
+};
+
+LoginForm.propTypes = {
+    info: PropTypes.object
 };

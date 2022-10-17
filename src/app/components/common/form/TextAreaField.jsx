@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 const TextAreaField = ({ label, id, name, value, rows, onChange, error }) => {
-    const handleChange = ({ target }) => {
+    const handleChange = useCallback(({ target }) => {
         onChange({ name: target.name, value: target.value });
-    };
-    const getTextAreaClassName = () =>
-        `form-control ${error ? "is-invalid" : ""}`;
+    }, [onChange]);
+
+    const getTextAreaClassName = () => `form-control ${error ? "is-invalid" : ""}`;
+
     return (
         <div className="mb-4">
             <label htmlFor={id} className="form-label">
@@ -25,7 +26,7 @@ const TextAreaField = ({ label, id, name, value, rows, onChange, error }) => {
     );
 };
 
-export default TextAreaField;
+export default React.memo(TextAreaField);
 
 TextAreaField.defaultProps = {
     rows: "3"

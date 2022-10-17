@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 
 const RadioField = ({ label, name, value, onChange, options }) => {
-    const handleChange = ({ target }) => {
+    const handleChange = useCallback(({ target }) => {
         onChange({ name: target.name, value: target.value });
-    };
+    }, [onChange]);
+
     return (
         <div className="mb-4">
             <label className="form-label" htmlFor="rad">
@@ -38,7 +39,7 @@ const RadioField = ({ label, name, value, onChange, options }) => {
     );
 };
 
-export default RadioField;
+export default React.memo(RadioField);
 
 RadioField.propTypes = {
     label: PropTypes.string,

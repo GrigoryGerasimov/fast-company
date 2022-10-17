@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { validator } from "../../../../../../utils/validation/validator.js";
 import { validatorConfig } from "../../validatorConfig.js";
 import TextAreaField from "../../../../form/TextAreaField.jsx";
+import PropTypes from "prop-types";
 
-const NewComment = ({ currentUserId, onCommentAdd }) => {
+const NewComment = ({ onCommentAdd }) => {
     const [commentData, setCommentData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -46,7 +46,7 @@ const NewComment = ({ currentUserId, onCommentAdd }) => {
     );
 };
 
-export default React.memo(NewComment);
+export default NewComment;
 
 NewComment.propTypes = {
     currentUserId: PropTypes.string,
