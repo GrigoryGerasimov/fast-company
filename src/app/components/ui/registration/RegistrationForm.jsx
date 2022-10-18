@@ -5,8 +5,9 @@ import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
 import { useQualities, useProfessions, useAuth } from "../../../hooks";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ info }) => {
     const history = useHistory();
     const [data, setData] = useState({
         email: "",
@@ -135,6 +136,11 @@ export const RegistrationForm = () => {
             >
                 Отправить
             </button>
+            {info}
         </form>
     );
+};
+
+RegistrationForm.propTypes = {
+    info: PropTypes.object
 };

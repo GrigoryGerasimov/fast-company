@@ -126,7 +126,10 @@ export const AuthProvider = ({ children }) => {
     const signOutOnUnload = () => removeTokens();
 
     useEffect(() => {
-        !stayOn ? window.addEventListener("beforeunload", signOutOnUnload, false) : window.removeEventListener("beforeunload", signOutOnUnload, false);
+        !stayOn && window.addEventListener("beforeunload", signOutOnUnload, false);
+        return () => {
+            !stayOn && window.removeEventListener("beforeunload", signOutOnUnload, false);
+        };
     }, [stayOn]);
 
     return (

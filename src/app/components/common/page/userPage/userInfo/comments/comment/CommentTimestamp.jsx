@@ -1,9 +1,10 @@
 import React from "react";
+import { getTimestampFormat } from "../../../../../../../utils/timestamp/getTimestampFormat";
+import SmallOutput from "../../../../../wrappers/typography/SmallOutput.jsx";
 import PropTypes from "prop-types";
-import { getTimestampFormat } from "../../../../../../utils/timestamp/getTimestampFormat";
 
 const CommentTimestamp = ({ timestamp }) => {
-    return <span className="small">- {getTimestampFormat(timestamp)}</span>;
+    return <SmallOutput> - {getTimestampFormat(timestamp)}</SmallOutput>;
 };
 
 export default CommentTimestamp;

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { convertObjectToArrayFormat } from "../../../utils/formatting/convertObjectToArrayFormat.js";
 
 const MultiSelectField = ({
     label,
@@ -10,13 +11,14 @@ const MultiSelectField = ({
     defaultValue,
     error
 }) => {
-    const optionsArray = !Array.isArray(options) && typeof options === "object" ? Object.values(options) : options;
-    const handleChange = (value) => {
+    const optionsArray = useMemo(() => convertObjectToArrayFormat(options), [options]);
+
+    const handleChange = useCallback((value) => {
         onChange({ name, value });
-    };
-    const getMultiSelectClassName = () => {
-        return `basic-multi-select ${error ? "is-invalid" : ""}`;
-    };
+    }, [onChange]);
+
+    const getMultiSelectClassName = () => `basic-multi-select ${error ? "is-invalid" : ""}`;
+
     return (
         <div className="mb-4">
             <label className="form-label">{label}</label>
@@ -36,7 +38,7 @@ const MultiSelectField = ({
     );
 };
 
-export default MultiSelectField;
+export default React.memo(MultiSelectField);
 
 MultiSelectField.propTypes = {
     label: PropTypes.string,

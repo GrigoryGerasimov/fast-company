@@ -45,6 +45,10 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const bookmarkUser = updatedUsers => {
+        setUsers(updatedUsers);
+    };
+
     useEffect(() => {
         getUsers();
     }, [newUser, deletedUserId]);
@@ -54,7 +58,7 @@ export const UserProvider = ({ children }) => {
         setError(null);
     }, [error]);
 
-    return <UserContext.Provider value={{ users, getUserById, deleteUser }}>{!isLoading ? children : <Loader/>}</UserContext.Provider>;
+    return <UserContext.Provider value={{ users, getUserById, deleteUser, bookmarkUser }}>{!isLoading ? children : <Loader/>}</UserContext.Provider>;
 };
 
 UserProvider.propTypes = {

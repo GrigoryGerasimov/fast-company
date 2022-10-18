@@ -1,47 +1,24 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { Comment, NewComment } from "./index";
-import { useUsers, useComments, useAuth } from "../../../../../../hooks";
+import React, { useCallback } from "react";
+import { NewComment } from "./index";
+import { useComments } from "../../../../../../hooks";
+import { CardWrapper, Divider } from "../../../../wrappers";
+import { Comments } from "./Comments.jsx";
 
 const CommentsList = () => {
-    const { userId } = useParams();
-    const { getUserById } = useUsers();
-    const { currentUser } = useAuth();
     const { comments, createComment, deleteComment } = useComments();
 
-    const handleCommentAdd = data => createComment(data);
-    const handleCommentDelete = commentId => deleteComment(commentId);
+    const handleCommentAdd = useCallback(data => createComment(data), []);
+    const handleCommentDelete = useCallback(commentId => deleteComment(commentId), []);
 
     return (
         <>
-            <div className="card mb-2">
-                {" "}
-                <div className="card-body ">
-                    <h2>New comment</h2>
-                    <NewComment
-                        onCommentAdd={handleCommentAdd}
-                    />
-                </div>
-            </div>
-            <div className="card mb-3">
-                <div className="card-body">
-                    <h2>Comments</h2>
-                    <hr />
-                    {comments.map((comment) => {
-                        const sender = getUserById(comment.userId) ?? currentUser;
-                        return (
-                            <Comment
-                                key={comment._id}
-                                {...comment}
-                                sender={sender}
-                                currentUser={currentUser}
-                                onCommentDelete={handleCommentDelete}
-                            />
-                        );
-                    }
-                    )}
-                </div>
-            </div>
+            <CardWrapper cardClass="mb-2">
+                <NewComment onCommentAdd={handleCommentAdd}/>
+            </CardWrapper>
+            <Divider/>
+            <CardWrapper>
+                <Comments comments={comments} onCommentDelete={handleCommentDelete}/>
+            </CardWrapper>
         </>
     );
 };

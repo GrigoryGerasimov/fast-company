@@ -2,7 +2,7 @@ import React from "react";
 import { useParams, useHistory, Redirect } from "react-router-dom";
 import { UserPage, EditorPage } from "../components/common/page/userPage";
 import { UsersListPage } from "../components/common/page/userListPage";
-import ContainerWrapper from "../components/ui/ContainerWrapper.jsx";
+import { ContainerWrapper } from "../components/common/wrappers";
 import { useUsers, useAuth } from "../hooks";
 
 const Users = () => {
@@ -13,32 +13,22 @@ const Users = () => {
     const history = useHistory();
 
     return userId ? edit ? userId === currentUser._id ? (
-        <ContainerWrapper>
+        <>
             <button
                 className="btn btn-primary offset-1 m-3 w-25"
                 onClick={() => history.push(`/users/${userId}`)}
             >
-                    Назад
+                Назад
             </button>
-            <div className="col-md-6 offset-3 shadow p-4">
-                <h3 className="mb-4">Изменение данных</h3>
-                <EditorPage
-                    user={user}
-                />
-            </div>
-        </ContainerWrapper>
+            <ContainerWrapper>
+                <EditorPage user={user}/>
+            </ContainerWrapper>
+        </>
     ) : (
         <Redirect to={`/users/${currentUser._id}/edit`}/>
     ) : (
-        <ContainerWrapper
-            containerClass="container"
-            rowClass="row gutters-sm"
-        >
-            <h3 className="mb-4">Страница пользователя</h3>
-            <UserPage
-                user={user}
-                id={userId}
-            />
+        <ContainerWrapper>
+            <UserPage user={user} id={userId}/>
         </ContainerWrapper>
     ) : (
         <UsersListPage/>

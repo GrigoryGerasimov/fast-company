@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import Loader from "../../Loader.jsx";
 
 export const UsersListPage = () => {
-    const { users, deleteUser } = useUsers();
+    const { users, deleteUser, bookmarkUser } = useUsers();
 
     const handleDelete = async userId => {
         try {
@@ -27,8 +27,7 @@ export const UsersListPage = () => {
         const updatedUsers = [...users];
         updatedUsers[currentUserIndex].bookmark =
             !updatedUsers[currentUserIndex].bookmark;
-        // setUsers(updatedUsers);
-        console.log(updatedUsers);
+        bookmarkUser(updatedUsers);
     };
 
     const pageSize = 8;

@@ -33,7 +33,6 @@ export const UserPage = ({ user, id }) => {
                     Все пользователи
                 </button>
             </div>
-
             <div className="col-md-8">
                 <CommentsProvider>
                     <CommentsList/>

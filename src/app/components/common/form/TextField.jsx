@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 const TextField = ({ label, type, name, value, onChange, error }) => {
     const [passwordVisibility, setPasswordVisibility] = useState(false);
+
     const togglePasswordVisibility = () => {
         setPasswordVisibility((prevState) => !prevState);
     };
-    const handleChange = ({ target }) => {
+
+    const handleChange = useCallback(({ target }) => {
         onChange({ name: target.name, value: target.value });
-    };
+    }, [onChange]);
+
     const getInputClassName = () => `form-control ${error && "is-invalid"}`;
+
     return (
         <div className="mb-4">
             <label htmlFor={name}>{label}</label>{" "}
@@ -41,7 +45,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     );
 };
 
-export default TextField;
+export default React.memo(TextField);
 
 TextField.defaultProps = {
     type: "text"
