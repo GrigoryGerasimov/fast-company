@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import SelectField from "../../../../form/SelectField.jsx";
 import PropTypes from "prop-types";
 import { validator } from "../../../../../../utils/validation/validator.js";
 import { validatorConfig } from "../../validatorConfig.js";
 import TextAreaField from "../../../../form/TextAreaField.jsx";
 
-const NewComment = ({ currentUserId, users, onCommentAdd }) => {
-    const [commentData, setCommentData] = useState({
-        pageId: currentUserId,
-        userId: "",
-        content: ""
-    });
+const NewComment = ({ currentUserId, onCommentAdd }) => {
+    const [commentData, setCommentData] = useState({});
     const [errors, setErrors] = useState({});
 
     const handleChange = (target) => {
@@ -31,29 +26,16 @@ const NewComment = ({ currentUserId, users, onCommentAdd }) => {
         const isValid = !validate();
         if (!isValid) return false;
         onCommentAdd(commentData);
-        setCommentData((prevState) => ({
-            ...prevState,
-            userId: "",
-            content: ""
-        }));
+        setCommentData({});
     };
 
     return (
         <form onSubmit={handleSubmit} className="d-flex flex-column">
-            <SelectField
-                label="Отправитель"
-                name="userId"
-                value={commentData.userId}
-                defaultOption="Выберите пользователя"
-                options={users}
-                onChange={handleChange}
-                error={errors.userId}
-            />
             <TextAreaField
                 label="Сообщение"
                 id="content"
                 name="content"
-                value={commentData.content}
+                value={commentData.content || ""}
                 onChange={handleChange}
                 error={errors.content}
             />
@@ -68,6 +50,5 @@ export default React.memo(NewComment);
 
 NewComment.propTypes = {
     currentUserId: PropTypes.string,
-    users: PropTypes.arrayOf(PropTypes.object),
     onCommentAdd: PropTypes.func
 };

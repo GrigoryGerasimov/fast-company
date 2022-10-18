@@ -1,4 +1,4 @@
-export const validator = (data, config, users = null) => {
+export const validator = (data, config) => {
     const errors = {};
     const validate = (validateMethod, data, config) => {
         let statusValidate;
@@ -15,10 +15,6 @@ export const validator = (data, config, users = null) => {
         }
         case "isEmail": {
             statusValidate = !/\S+@\S+\.\S+/g.test(data);
-            break;
-        }
-        case "emailAlreadyExists": {
-            statusValidate = users && users.find(user => user.email === data);
             break;
         }
         case "hasCapitalChar": {

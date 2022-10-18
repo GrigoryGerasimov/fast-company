@@ -12,11 +12,11 @@ export const qualityService = {
         return data;
     },
     update: async (id, payload) => {
-        const { data } = await httpService.put(qualityEndpoint + id, payload);
-        return data;
+        await httpService.put(qualityEndpoint + id, payload);
+        return id;
     },
     delete: async id => {
-        const { data } = await httpService.delete(qualityEndpoint + id);
-        return data;
+        await httpService.delete(qualityEndpoint + id);
+        return id;
     }
 };

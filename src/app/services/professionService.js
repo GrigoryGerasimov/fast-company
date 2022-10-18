@@ -12,11 +12,11 @@ export const professionService = {
         return data;
     },
     update: async (id, payload) => {
-        const { data } = await httpService.put(professionEndpoint + id, payload);
-        return data;
+        await httpService.put(professionEndpoint + id, payload);
+        return id;
     },
     delete: async id => {
-        const { data } = await httpService.delete(professionEndpoint + id);
-        return data;
+        await httpService.delete(professionEndpoint + id);
+        return id;
     }
 };

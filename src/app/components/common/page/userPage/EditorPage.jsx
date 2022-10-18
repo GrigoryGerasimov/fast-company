@@ -1,68 +1,77 @@
 import React, { useState, useEffect } from "react";
-import API from "../../../../api";
-import TextField from "../../form/TextField.jsx";
-import SelectField from "../../form/SelectField.jsx";
-import RadioField from "../../form/RadioField.jsx";
-import MultiSelectField from "../../form/MultiSelectField.jsx";
+import { TextField, SelectField, RadioField, MultiSelectField } from "../../form";
 import { validator } from "../../../../utils/validation/validator.js";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { validatorConfig } from "./validatorConfig.js";
-import {
-    getProfessionById,
-    getQualities
-} from "../../../../utils/formatting/outputFormat.js";
+import Loader from "../../Loader.jsx";
+import { useProfessions, useQualities, useAuth } from "../../../../hooks";
 
-export const EditorPage = ({ user, id, qualities, professions }) => {
+export const EditorPage = ({ user }) => {
     const history = useHistory();
+    const { userId } = useParams();
+    const { updateCurrentUser } = useAuth();
+    const { name, email, profession, gender, qualities } = user;
+    const { professions: professionsCollection, isLoading: professionsLoading } = useProfessions();
+    const { qualities: qualitiesCollection, isLoading: qualitiesLoading } = useQualities();
+
+    const professionsList = professionsCollection.map(profession => ({
+        label: profession.name,
+        value: profession._id
+    }));
+    const qualitiesList = qualitiesCollection.map(quality => ({
+        label: quality.name,
+        value: quality._id,
+        color: quality.color
+    }));
+
     const [data, setData] = useState({
-        name: user.name,
-        email: user.email,
-        profession: user.profession._id,
-        sex: user.sex,
-        qualities: user.qualities
+        name,
+        email,
+        profession,
+        gender,
+        qualities: qualities.map(quality => qualitiesList.find(qualitiesListItem => qualitiesListItem.value === quality))
     });
-    const [updatedData, setUpdatedData] = useState({});
-    const [updatedUser, setUpdatedUser] = useState({});
     const [errors, setErrors] = useState({});
 
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
-        return Object.keys(errors).length;
+        return !Object.keys(errors).length;
     };
+
     const isValid = !Object.keys(errors).length;
+
     useEffect(() => {
         validate();
     }, [data]);
+
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
         }));
     };
-    const handleSubmit = (evt) => {
-        setUpdatedData({
-            ...user,
-            ...data,
-            profession: getProfessionById(data.profession, professions),
-            qualities: getQualities(data.qualities, qualities)
-        });
-        setTimeout(() => {
-            if (updatedUser) history.push(`/users/${updatedUser._id}`);
-        }, 1000);
+
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
         const isValid = validate();
         if (!isValid) return false;
+        const updatedData = {
+            ...user,
+            ...data,
+            qualities: data.qualities.map(quality => quality.value)
+        };
+        try {
+            await updateCurrentUser(userId, updatedData);
+        } catch (error) {
+            setErrors(error);
+        } finally {
+            history.push(`/users/${userId}`);
+        }
     };
 
-    useEffect(() => {
-        API.users
-            .update(id, updatedData)
-            .then((response) => setUpdatedUser(response));
-    }, [updatedData]);
-
-    return qualities.length && professions.length ? (
+    return !professionsLoading && !qualitiesLoading ? (
         <form onSubmit={handleSubmit}>
             <TextField
                 label="Имя"
@@ -83,7 +92,7 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
                 value={data.profession}
                 onChange={handleChange}
                 defaultOption="Выбрать..."
-                options={professions}
+                options={professionsList}
                 error={errors.profession}
                 name="profession"
             />
@@ -93,13 +102,13 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
                     { name: "Female", value: "female" },
                     { name: "Other", value: "other" }
                 ]}
-                value={data.sex}
-                name="sex"
+                value={data.gender}
+                name="gender"
                 onChange={handleChange}
                 label="Пол"
             />
             <MultiSelectField
-                options={qualities}
+                options={qualitiesList}
                 onChange={handleChange}
                 name="qualities"
                 label="Качества"
@@ -114,24 +123,10 @@ export const EditorPage = ({ user, id, qualities, professions }) => {
             </button>
         </form>
     ) : (
-        "Загрузка..."
+        <Loader/>
     );
 };
 
 EditorPage.propTypes = {
-    user: PropTypes.object,
-    id: PropTypes.string,
-    qualities: PropTypes.arrayOf(
-        PropTypes.shape({
-            label: PropTypes.string,
-            value: PropTypes.string,
-            color: PropTypes.string
-        })
-    ),
-    professions: PropTypes.arrayOf(
-        PropTypes.shape({
-            label: PropTypes.string,
-            value: PropTypes.string
-        })
-    )
+    user: PropTypes.object
 };

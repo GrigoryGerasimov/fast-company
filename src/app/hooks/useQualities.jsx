@@ -9,7 +9,7 @@ export const useQualities = () => useContext(QualitiesContext);
 
 export const QualitiesProvider = ({ children }) => {
     const [qualities, setQualities] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -20,7 +20,7 @@ export const QualitiesProvider = ({ children }) => {
     const catchError = error => {
         const { message } = error.response.data;
         setError(message);
-        setIsLoading(false);
+        setLoading(false);
     };
 
     const getQualitiesByUser = id => qualities.filter(quality => quality._id === id);
@@ -28,8 +28,9 @@ export const QualitiesProvider = ({ children }) => {
     const getAllQualities = async () => {
         try {
             const { content } = await qualityService.getAll();
-            setQualities(content);
-            setIsLoading(false);
+            const qualitiesArray = !Array.isArray(content) && typeof content === "object" ? Object.values(content) : content;
+            setQualities(qualitiesArray);
+            setLoading(false);
         } catch (error) {
             catchError(error);
         }

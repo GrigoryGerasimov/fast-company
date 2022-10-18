@@ -1,14 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export const UserPic = React.memo(({ className, alt, width, height }) => {
+export const UserPic = React.memo(({ source, className, alt, width, height }) => {
     return (
         <img
-            src={`https://avatars.dicebear.com/api/avataaars/${(
-                Math.random() + 1
-            )
-                .toString(36)
-                .substring(7)}.svg`}
+            src={source}
             className={className}
             alt={alt}
             width={width}
@@ -22,6 +18,7 @@ UserPic.defaultProps = {
 };
 
 UserPic.propTypes = {
+    source: PropTypes.string,
     className: PropTypes.string,
     alt: PropTypes.string,
     width: PropTypes.string,

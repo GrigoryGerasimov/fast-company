@@ -2,6 +2,7 @@ import React from "react";
 import { Quality } from "./Quality";
 import { useQualities } from "../../../hooks";
 import PropTypes from "prop-types";
+import Loader from "../../common/Loader.jsx";
 
 const QualitiesList = ({ idData }) => {
     const { isLoading, getQualitiesByUser } = useQualities();
@@ -10,7 +11,7 @@ const QualitiesList = ({ idData }) => {
 
     return !isLoading ? qualitiesByUser.map((quality) => (
         <Quality key={quality._id} {...quality} />
-    )) : "Loading...";
+    )) : <Loader/>;
 };
 
 export default QualitiesList;

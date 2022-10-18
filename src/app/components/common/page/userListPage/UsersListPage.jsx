@@ -4,12 +4,12 @@ import { Pagination } from "../../Pagination.jsx";
 import { paginate, getPagesRange } from "../../../../utils/pagination/paginate.js";
 import { GroupList } from "../../GroupList.jsx";
 import PropTypes from "prop-types";
-import API from "../../../../api";
 import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
 import _ from "lodash";
-import { useUsers } from "../../../../hooks";
+import { useUsers, useProfessions } from "../../../../hooks";
 import { toast } from "react-toastify";
+import Loader from "../../Loader.jsx";
 
 export const UsersListPage = () => {
     const { users, deleteUser } = useUsers();
@@ -33,7 +33,7 @@ export const UsersListPage = () => {
 
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState([]);
+    const { isLoading: professionsLoading, professions } = useProfessions();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
@@ -59,9 +59,7 @@ export const UsersListPage = () => {
     const handleSort = (item) => {
         setSortBy(item);
     };
-    useEffect(() => {
-        API.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
+
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
@@ -83,7 +81,7 @@ export const UsersListPage = () => {
     if (users.length) {
         return (
             <div className="d-flex">
-                {professions && (
+                {(professions && !professionsLoading) && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
                             selectedItem={selectedProf}
@@ -121,7 +119,7 @@ export const UsersListPage = () => {
                 </div>
             </div>
         );
-    } else return "loading...";
+    } else return <Loader/>;
 };
 
 UsersListPage.propTypes = {

@@ -9,9 +9,9 @@ const UserQualitiesCard = ({ qualities }) => {
                 <h5 className="card-title">
                     <span>Qualities</span>
                 </h5>
-                <p className="card-text">
+                <div className="card-text">
                     <Qualities idData={qualities} />
-                </p>
+                </div>
             </div>
         </div>
     );

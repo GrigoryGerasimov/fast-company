@@ -1,4 +1,5 @@
 import { getMsConversion } from "./getMsConversion.js";
+import { getTimeFormat } from "./getTimeFormat.js";
 
 export const getTimestampFormat = (timestamp) => {
     if (typeof timestamp !== "number") timestamp = Number(timestamp);
@@ -23,13 +24,13 @@ export const getTimestampFormat = (timestamp) => {
     ];
 
     if (year) {
-        return `${timestampDate.getDate()} ${
+        return `${getTimeFormat(timestampDate.getDate())} ${
             months[timestampDate.getMonth()]
         } ${timestampDate.getFullYear()}`;
     } else if (month || day) {
-        return `${timestampDate.getDate()} ${months[timestampDate.getMonth()]}`;
+        return `${getTimeFormat(timestampDate.getDate())} ${months[timestampDate.getMonth()]}`;
     } else if (hour || min > 30) {
-        return `${timestampDate.getHours()}:${timestampDate.getMinutes()}`;
+        return `${getTimeFormat(timestampDate.getHours())}:${getTimeFormat(timestampDate.getMinutes())}`;
     } else {
         if (min > 10 && min <= 30) {
             return "30 минут назад";

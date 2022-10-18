@@ -1,18 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useHistory } from "react-router-dom";
-import TextField from "../../common/form/TextField.jsx";
-import SelectField from "../../common/form/SelectField.jsx";
-import RadioField from "../../common/form/RadioField.jsx";
-import MultiSelectField from "../../common/form/MultiSelectField.jsx";
-import CheckBoxField from "../../common/form/CheckBoxField.jsx";
+import { TextField, SelectField, RadioField, MultiSelectField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useQualities, useProfessions, useAuth, useUsers } from "../../../hooks";
+import { useQualities, useProfessions, useAuth } from "../../../hooks";
 import { toast } from "react-toastify";
 
 export const RegistrationForm = () => {
     const history = useHistory();
-    const { users } = useUsers();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -33,7 +28,7 @@ export const RegistrationForm = () => {
     const [errors, setErrors] = useState({});
 
     const validate = useCallback(() => {
-        const errors = validator(data, validatorConfig, users);
+        const errors = validator(data, validatorConfig);
         setErrors(errors);
         return Object.keys(errors).length;
     }, [data]);

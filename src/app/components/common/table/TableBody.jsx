@@ -1,14 +1,17 @@
 import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
+import { useAuth } from "../../../hooks";
 
 export const TableBody = ({ data, columns }) => {
-    const renderDataItem = (item, column) => {
+    const { currentUser } = useAuth();
+
+    const renderDataItem = (item, column, columnName) => {
         const { component } = column;
-        if (component) {
-            return typeof component === "function" ? component(item) : component;
+        if (columnName === "delete") {
+            return item._id === currentUser._id ? component(item) : null;
         } else {
-            return _.get(item, column.path);
+            return component ? typeof component === "function" ? component(item) : component : _.get(item, column.path);
         }
     };
 
@@ -18,7 +21,7 @@ export const TableBody = ({ data, columns }) => {
                 <tr key={dataItem._id}>
                     {Object.keys(columns).map((column) => (
                         <td key={column}>
-                            {renderDataItem(dataItem, columns[column])}
+                            {renderDataItem(dataItem, columns[column], column)}
                         </td>
                     ))}
                 </tr>
