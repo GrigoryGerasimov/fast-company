@@ -7,9 +7,11 @@ import PropTypes from "prop-types";
 import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
 import _ from "lodash";
-import { useUsers, useProfessions } from "../../../../hooks";
+import { useUsers } from "../../../../hooks";
 import { toast } from "react-toastify";
 import Loader from "../../Loader.jsx";
+import { useSelector } from "react-redux";
+import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
 
 export const UsersListPage = () => {
     const { users, deleteUser, bookmarkUser } = useUsers();
@@ -32,7 +34,8 @@ export const UsersListPage = () => {
 
     const pageSize = 8;
     const [currentPage, setCurrentPage] = useState(1);
-    const { isLoading: professionsLoading, professions } = useProfessions();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const handlePageChange = (pageIndex) => setCurrentPage(pageIndex);
