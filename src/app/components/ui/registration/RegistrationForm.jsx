@@ -3,7 +3,10 @@ import { useHistory } from "react-router-dom";
 import { TextField, SelectField, RadioField, MultiSelectField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useQualities, useProfessions, useAuth } from "../../../hooks";
+import { useAuth } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { getQualities } from "../../../store/qualities.js";
+import { getProfessions } from "../../../store/professions.js";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
 
@@ -20,12 +23,12 @@ export const RegistrationForm = ({ info }) => {
         license: false
     });
     const { signUp } = useAuth();
-    const { qualities } = useQualities();
+    const qualities = useSelector(getQualities());
     const qualitiesList = qualities.map(quality => ({
         label: quality.name,
         value: quality._id
     }));
-    const { professions } = useProfessions();
+    const professions = useSelector(getProfessions());
     const [errors, setErrors] = useState({});
 
     const validate = useCallback(() => {

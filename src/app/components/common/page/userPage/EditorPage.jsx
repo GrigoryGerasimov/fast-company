@@ -5,15 +5,20 @@ import { useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { validatorConfig } from "./validatorConfig.js";
 import Loader from "../../Loader.jsx";
-import { useProfessions, useQualities, useAuth } from "../../../../hooks";
+import { useAuth } from "../../../../hooks";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesLoadingStatus } from "../../../../store/qualities.js";
+import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
 
 export const EditorPage = ({ user }) => {
     const history = useHistory();
     const { userId } = useParams();
     const { updateCurrentUser } = useAuth();
     const { name, email, profession, gender, qualities } = user;
-    const { professions: professionsCollection, isLoading: professionsLoading } = useProfessions();
-    const { qualities: qualitiesCollection, isLoading: qualitiesLoading } = useQualities();
+    const professionsCollection = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
+    const qualitiesCollection = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
 
     const professionsList = professionsCollection.map(profession => ({
         label: profession.name,
