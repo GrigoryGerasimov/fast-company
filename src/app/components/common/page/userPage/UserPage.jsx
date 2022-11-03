@@ -1,6 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
     UserInfoCard,
     UserQualitiesCard,
@@ -8,10 +7,19 @@ import {
     CommentsList
 } from "./userInfo";
 import Loader from "../../Loader.jsx";
-import { CommentsProvider } from "../../../../hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { loadCommentsList, getDeletedCommentId } from "../../../../store/comments.js";
+import PropTypes from "prop-types";
 
 export const UserPage = ({ user, id }) => {
+    const { userId } = useParams();
     const history = useHistory();
+    const dispatch = useDispatch();
+    const deletedCommentId = useSelector(getDeletedCommentId());
+
+    useEffect(() => {
+        dispatch(loadCommentsList(userId));
+    }, [userId, deletedCommentId]);
 
     return user?._id ? (
         <>
@@ -34,9 +42,7 @@ export const UserPage = ({ user, id }) => {
                 </button>
             </div>
             <div className="col-md-8">
-                <CommentsProvider>
-                    <CommentsList/>
-                </CommentsProvider>
+                <CommentsList/>
             </div>
         </>
     ) : (

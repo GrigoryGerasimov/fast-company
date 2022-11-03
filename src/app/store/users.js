@@ -5,6 +5,7 @@ import { setTokens, getTokens, removeTokens } from "../services/localStorageServ
 import { getRandomNumberInRange } from "../utils/randomizer/getRandomNumberInRange.js";
 import { getRandomImg } from "../utils/randomizer/getRandomImg.js";
 import history from "../utils/history/history.js";
+import { FirebaseAuthError } from "../utils/authError/FirebaseAuthError.js";
 
 const initialState = getTokens().accessToken ? {
     entities: null,
@@ -14,14 +15,16 @@ const initialState = getTokens().accessToken ? {
         userId: getTokens().userId
     },
     isLoggedIn: true,
-    dataLoaded: false
+    dataLoaded: false,
+    deletedUserId: null
 } : {
     entities: null,
     isLoading: false,
     error: null,
     auth: null,
     isLoggedIn: false,
-    dataLoaded: false
+    dataLoaded: false,
+    deletedUserId: null
 };
 
 const usersSlice = createSlice({
@@ -37,6 +40,7 @@ const usersSlice = createSlice({
         },
         onSuccessfulDeletion(state, { payload }) {
             state.entities = state.entities.filter(entity => entity._id !== payload);
+            state.deletedUserId = payload;
         },
         onFailure(state, { payload }) {
             state.error = payload;
@@ -71,6 +75,9 @@ const usersSlice = createSlice({
         },
         userFailedUpdate(state, { payload }) {
             state.error = payload;
+        },
+        authRequested(state) {
+            state.error = null;
         }
     }
 });
@@ -82,6 +89,7 @@ const {
         onSuccessfulDeletion,
         onFailure,
         onRequestEnd,
+        authRequested,
         authSuccessfulRequest,
         authFailedRequest,
         userCreationSuccessfulRequest,
@@ -92,7 +100,6 @@ const {
     }, reducer: usersReducer
 } = usersSlice;
 
-const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/createRequested");
 const userUpdateRequested = createAction("users/updateRequested");
 
@@ -119,7 +126,11 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
         setTokens(data);
         history.push(redirect);
     } catch (error) {
-        dispatch(authFailedRequest(error.message));
+        const { code, message } = error.response.data.error;
+        if (code === 400) {
+            dispatch(new FirebaseAuthError(message));
+            throw new FirebaseAuthError(message);
+        } else dispatch(authFailedRequest(error.message));
     }
 };
 
@@ -185,12 +196,14 @@ const usersSelectors = {
     getUsers: () => state => state.users.entities ? state.users.entities.filter(userEntity => userEntity?._id !== state.users.auth.userId) : null,
     getUserById: id => state => state.users.entities ? state.users.entities.find(userEntity => userEntity?._id === id) : null,
     getCurrentUser: () => state => state.users.entities ? state.users.entities.find(userEntity => userEntity?._id === state.users.auth.userId) : null,
+    getDeletedUserId: () => state => state.users.deletedUserId,
     getUsersLoadingStatus: () => state => state.users.isLoading,
     getUserLoggedInStatus: () => state => state.users.isLoggedIn,
     getDataStatus: () => state => state.users.dataLoaded,
-    getCurrentUserId: () => state => state.users.auth.userId
+    getCurrentUserId: () => state => state.users.auth.userId,
+    getAuthError: () => state => state.users.error
 };
 
-export const { getUsers, getUsersLoadingStatus, getUserById, getCurrentUser, getUserLoggedInStatus, getDataStatus, getCurrentUserId } = usersSelectors;
+export const { getUsers, getUsersLoadingStatus, getUserById, getCurrentUser, getDeletedUserId, getUserLoggedInStatus, getDataStatus, getCurrentUserId, getAuthError } = usersSelectors;
 
 export default usersReducer;

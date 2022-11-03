@@ -5,7 +5,7 @@ import { setTokens, getTokens, removeTokens } from "../services/localStorageServ
 import { authConstants } from "../utils/constants/authConstants.js";
 import { userService } from "../services/userService.js";
 import { toast } from "react-toastify";
-import { FirebaseAuthError } from "../utils/derivedClasses/FirebaseAuthError.js";
+import { FirebaseAuthError } from "../utils/authError/FirebaseAuthError.js";
 import { getRandomNumberInRange } from "../utils/randomizer/getRandomNumberInRange.js";
 import Loader from "../components/common/Loader.jsx";
 import { getRandomImg } from "../utils/randomizer/getRandomImg.js";
