@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { Router } from "react-router-dom";
 import "./index.css";
 import { App } from "./app/App.jsx";
 import reportWebVitals from "./reportWebVitals";
@@ -9,18 +9,22 @@ import { logger } from "./app/services/loggingService.js";
 import "react-toastify/dist/ReactToastify.css";
 import { store } from "./app/store/store.js";
 import { Provider } from "react-redux";
+import history from "./app/utils/history/history";
+import withAppLoader from "./app/components/ui/hoc/withAppLoader.jsx";
 
 logger.init();
 
+const AppWithPreload = withAppLoader(App);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <BrowserRouter>
+    <Router history={history}>
         <Provider store={store}>
             <React.StrictMode>
-                <App />
+                <AppWithPreload />
             </React.StrictMode>
         </Provider>
-    </BrowserRouter>
+    </Router>
 );
 
 reportWebVitals();

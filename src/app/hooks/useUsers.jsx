@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { userService } from "../services/userService.js";
-import PropTypes from "prop-types";
 import { toast } from "react-toastify";
-import { useAuth } from "./useAuth.jsx";
 import Loader from "../components/common/Loader.jsx";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../store/users";
+import PropTypes from "prop-types";
 
 const UserContext = React.createContext();
 
@@ -14,7 +15,7 @@ export const UserProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [deletedUserId, setDeletedUserId] = useState("");
-    const { currentUser, newUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
     const errorCatcher = error => {
         const { message } = error.response.data;
@@ -27,7 +28,7 @@ export const UserProvider = ({ children }) => {
     const getUsers = async () => {
         try {
             const { content } = await userService.getAll();
-            const filteredContent = content.filter(user => user._id !== currentUser._id);
+            const filteredContent = content.filter(user => user._id !== currentUserId);
             setUsers(filteredContent);
             setLoading(false);
             return content;
@@ -51,7 +52,7 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         getUsers();
-    }, [newUser, deletedUserId]);
+    }, [deletedUserId]);
 
     useEffect(() => {
         error && toast.error(error);

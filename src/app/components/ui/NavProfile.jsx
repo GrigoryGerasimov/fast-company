@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks";
 import { UserPic } from "../common/page/userPage";
+import { useSelector } from "react-redux";
+import { getCurrentUser, getCurrentUserId } from "../../store/users.js";
+import Loader from "../common/Loader.jsx";
 
 const NavProfile = () => {
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
+    const currentUser = useSelector(getCurrentUser());
     const [isOpen, setOpen] = useState(false);
     const toggleMenu = () => {
         setOpen(prevState => !prevState);
     };
+
+    if (!currentUser) return <Loader/>;
 
     return (
         <div className="dropdown" onClick={toggleMenu}>
@@ -23,7 +28,7 @@ const NavProfile = () => {
                 />
             </div>
             <div className={`w-100 dropdown-menu ${isOpen ? "show" : ""}`}>
-                <Link to={`/users/${currentUser._id}`} className="dropdown-item">My Profile</Link>
+                <Link to={`/users/${currentUserId}`} className="dropdown-item">My Profile</Link>
                 <Link to="/logout" className="dropdown-item">Log Out</Link>
             </div>
         </div>

@@ -3,18 +3,19 @@ import { useHistory } from "react-router-dom";
 import { TextField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useAuth } from "../../../hooks";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { signIn } from "../../../store/users.js";
 
 export const LoginForm = ({ info }) => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         password: "",
         stayOn: false
     });
     const [errors, setErrors] = useState({});
-    const { signIn } = useAuth();
 
     const validate = useCallback(() => {
         const errors = validator(data, validatorConfig);
@@ -34,16 +35,13 @@ export const LoginForm = ({ info }) => {
             [target.name]: target.value
         }));
     };
-    const handleSubmit = async evt => {
+    const handleSubmit = evt => {
         evt.preventDefault();
         const isValid = !validate();
         if (!isValid) return false;
-        try {
-            await signIn(data);
-            history.replace(history.location.state ? history.location.state.from.pathname : "/");
-        } catch (error) {
-            setErrors(error);
-        }
+        const redirect = history.location.state ? history.location.state.from.pathname : "/";
+        dispatch(signIn({ payload: data, redirect }));
+        // history.replace();
     };
 
     return (

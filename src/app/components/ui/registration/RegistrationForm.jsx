@@ -1,17 +1,16 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useHistory } from "react-router-dom";
 import { TextField, SelectField, RadioField, MultiSelectField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useAuth } from "../../../hooks";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getQualities } from "../../../store/qualities.js";
 import { getProfessions } from "../../../store/professions.js";
 import { toast } from "react-toastify";
 import PropTypes from "prop-types";
+import { signUp } from "../../../store/users.js";
 
 export const RegistrationForm = ({ info }) => {
-    const history = useHistory();
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -22,7 +21,6 @@ export const RegistrationForm = ({ info }) => {
         qualities: [],
         license: false
     });
-    const { signUp } = useAuth();
     const qualities = useSelector(getQualities());
     const qualitiesList = qualities.map(quality => ({
         label: quality.name,
@@ -49,7 +47,7 @@ export const RegistrationForm = ({ info }) => {
             [target.name]: target.value
         }));
     };
-    const handleSubmit = async (evt) => {
+    const handleSubmit = (evt) => {
         evt.preventDefault();
         const isValid = !validate();
         if (!isValid) return false;
@@ -58,13 +56,8 @@ export const RegistrationForm = ({ info }) => {
             name: `${data.firstName} ${data.lastName}`,
             qualities: data.qualities.map(quality => quality.value)
         };
-        try {
-            await signUp(newData);
-            toast.success("Вы успешно зарегистрированы в системе");
-            history.replace("/");
-        } catch (error) {
-            setErrors(error);
-        }
+        dispatch(signUp(newData));
+        toast.success("Вы успешно зарегистрированы в системе");
     };
     return (
         <form onSubmit={handleSubmit}>

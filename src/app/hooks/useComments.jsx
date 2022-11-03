@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import PropTypes from "prop-types";
-import { useAuth } from "./index";
 import { nanoid } from "nanoid";
 import { commentService } from "../services/commentService.js";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../store/users.js";
+import PropTypes from "prop-types";
 
 const CommentsContext = React.createContext();
 
@@ -17,7 +18,7 @@ export const CommentsProvider = ({ children }) => {
     const [deletedCommentId, setDeletedCommentId] = useState("");
     const [error, setError] = useState(null);
     const { userId } = useParams();
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
     const errorCatcher = error => {
         const { message } = error.response.data;
@@ -36,7 +37,7 @@ export const CommentsProvider = ({ children }) => {
         const comment = {
             ...data,
             pageId: userId,
-            userId: currentUser._id,
+            userId: currentUserId,
             created_at: Date.now(),
             _id: nanoid()
         };

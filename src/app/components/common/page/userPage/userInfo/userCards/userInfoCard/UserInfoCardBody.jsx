@@ -1,16 +1,17 @@
 import React from "react";
 import { UserPic } from "../../UserPic";
 import { EditButton } from "../../../../../../ui/EditButton";
-import { useAuth } from "../../../../../../../hooks";
 import { UserInfoBody } from "./UserInfoBody.jsx";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../../../../../../../store/users.js";
 import PropTypes from "prop-types";
 
 export const UserInfoCardBody = ({ id, source, name, profession, rate }) => {
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
     return (
         <>
-            {currentUser._id === id && (
+            {currentUserId === id && (
                 <EditButton id={id}/>
             )}
             <div className="d-flex flex-column align-items-center text-center position-relative">

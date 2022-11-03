@@ -16,8 +16,8 @@ export const commentService = {
         return data;
     },
     update: async (id, payload) => {
-        await httpService.put(commentEndpoint + id, payload);
-        return id;
+        const { data } = await httpService.put(commentEndpoint + id, payload);
+        return data;
     },
     delete: async id => {
         await httpService.delete(commentEndpoint + id);
