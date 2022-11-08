@@ -4,8 +4,8 @@ import { TextField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { signIn } from "../../../store/users.js";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn, getAuthError } from "../../../store/users.js";
 
 export const LoginForm = ({ info }) => {
     const history = useHistory();
@@ -16,6 +16,7 @@ export const LoginForm = ({ info }) => {
         stayOn: false
     });
     const [errors, setErrors] = useState({});
+    const loginError = useSelector(getAuthError());
 
     const validate = useCallback(() => {
         const errors = validator(data, validatorConfig);
@@ -68,6 +69,7 @@ export const LoginForm = ({ info }) => {
             >
                 Оставаться в системе
             </CheckBoxField>
+            {loginError && <div className="text-danger">{loginError}</div>}
             <button
                 disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"

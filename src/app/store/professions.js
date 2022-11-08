@@ -47,6 +47,6 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
 
 export const getProfessions = () => state => state.professions.entities;
 export const getProfessionsLoadingStatus = () => state => state.professions.isLoading;
-export const getProfessionsById = id => state => state.professions.entities.find(professionEntity => professionEntity._id === id);
+export const getProfessionsById = id => state => state.professions.entities ? state.professions.entities.find(professionEntity => professionEntity._id === id) : null;
 
 export default professionsReducer;
