@@ -16,8 +16,8 @@ export const userService = {
         return data;
     },
     update: async (id, payload) => {
-        await httpService.put(userEndpoint + id, payload);
-        return id;
+        const { data } = await httpService.put(userEndpoint + id, payload);
+        return data;
     },
     delete: async (id) => {
         await httpService.delete(userEndpoint + id);

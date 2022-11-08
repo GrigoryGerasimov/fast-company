@@ -2,9 +2,8 @@ import axios from "axios";
 import { logger } from "./loggingService.js";
 import configFile from "../config.json";
 import { toast } from "react-toastify";
-import { httpAuth } from "../hooks/useAuth.jsx";
 import { getTokens, setTokens } from "./localStorageService.js";
-import { authConstants } from "../utils/constants/authConstants.js";
+import { authService } from "./authService.js";
 
 const http = axios.create({
     baseURL: configFile.apiEndpoint
@@ -16,10 +15,7 @@ http.interceptors.request.use(
             config.url = !config.url.endsWith(".json") ? `${(/\/$/g.test(config.url) ? config.url.slice(0, -1) : config.url)}.json` : config.url;
             const { tokenExpireDate, refreshToken, accessToken } = getTokens();
             if (refreshToken && tokenExpireDate < Date.now()) {
-                const { data } = await httpAuth.post(authConstants.firebase.FIREBASE_EXCHANGE_REFRESH_TOKEN(), {
-                    grant_type: "refresh_token",
-                    refresh_token: refreshToken
-                });
+                const data = await authService.refresh();
                 const { refresh_token, id_token, user_id, expires_in } = data;
                 setTokens({
                     refreshToken: refresh_token,

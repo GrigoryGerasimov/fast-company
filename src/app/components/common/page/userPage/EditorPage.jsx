@@ -5,15 +5,15 @@ import { useHistory, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { validatorConfig } from "./validatorConfig.js";
 import Loader from "../../Loader.jsx";
-import { useAuth } from "../../../../hooks";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getQualities, getQualitiesLoadingStatus } from "../../../../store/qualities.js";
 import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
+import { updateUser } from "../../../../store/users.js";
 
 export const EditorPage = ({ user }) => {
     const history = useHistory();
+    const dispatch = useDispatch();
     const { userId } = useParams();
-    const { updateCurrentUser } = useAuth();
     const { name, email, profession, gender, qualities } = user;
     const professionsCollection = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
@@ -62,18 +62,12 @@ export const EditorPage = ({ user }) => {
         evt.preventDefault();
         const isValid = validate();
         if (!isValid) return false;
-        const updatedData = {
+        dispatch(updateUser(userId, {
             ...user,
             ...data,
             qualities: data.qualities.map(quality => quality.value)
-        };
-        try {
-            await updateCurrentUser(userId, updatedData);
-        } catch (error) {
-            setErrors(error);
-        } finally {
-            history.push(`/users/${userId}`);
-        }
+        }));
+        history.push(`/users/${userId}`);
     };
 
     return !professionsLoading && !qualitiesLoading ? (

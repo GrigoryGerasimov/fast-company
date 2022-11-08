@@ -1,15 +1,16 @@
 import React from "react";
 import _ from "lodash";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../../../store/users.js";
 import PropTypes from "prop-types";
-import { useAuth } from "../../../hooks";
 
 export const TableBody = ({ data, columns }) => {
-    const { currentUser } = useAuth();
+    const currentUserId = useSelector(getCurrentUserId());
 
     const renderDataItem = (item, column, columnName) => {
         const { component } = column;
         if (columnName === "delete") {
-            return item._id === currentUser._id ? component(item) : null;
+            return item._id === currentUserId ? component(item) : null;
         } else {
             return component ? typeof component === "function" ? component(item) : component : _.get(item, column.path);
         }

@@ -7,29 +7,33 @@ import PropTypes from "prop-types";
 import { SearchStatus } from "../../../ui/SearchStatus.jsx";
 import { SearchBar } from "../../../ui/SearchBar.jsx";
 import _ from "lodash";
-import { useUsers } from "../../../../hooks";
 import { toast } from "react-toastify";
 import Loader from "../../Loader.jsx";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
+import { getUsers, deleteUser, updateUser, getDataStatus } from "../../../../store/users.js";
 
 export const UsersListPage = () => {
-    const { users, deleteUser, bookmarkUser } = useUsers();
+    const users = useSelector(getUsers());
+    const dataStatus = useSelector(getDataStatus());
+    const dispatch = useDispatch();
+
+    if (!dataStatus) return <Loader/>;
 
     const handleDelete = async userId => {
         try {
-            await deleteUser(userId);
+            dispatch(deleteUser(userId));
         } catch (error) {
             toast.error(error);
         }
     };
 
-    const handleToggleBookmark = (userId) => {
-        const currentUserIndex = users.findIndex((user) => user._id === userId);
-        const updatedUsers = [...users];
-        updatedUsers[currentUserIndex].bookmark =
-            !updatedUsers[currentUserIndex].bookmark;
-        bookmarkUser(updatedUsers);
+    const handleToggleBookmark = userId => {
+        const updatedUser = users.find(user => user._id === userId);
+        dispatch(updateUser(userId, {
+            ...updatedUser,
+            bookmark: !updatedUser.bookmark
+        }));
     };
 
     const pageSize = 8;

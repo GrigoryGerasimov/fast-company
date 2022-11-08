@@ -7,7 +7,7 @@ const Comment = ({
     _id,
     created_at: timestamp,
     content,
-    sender,
+    senderId,
     currentUser,
     onCommentDelete
 }) => {
@@ -15,7 +15,7 @@ const Comment = ({
         <CardWrapper>
             <UserComment
                 id={_id}
-                sender={sender}
+                senderId={senderId}
                 currentUser={currentUser}
                 timestamp={timestamp}
                 content={content}
@@ -31,7 +31,7 @@ Comment.propTypes = {
     _id: PropTypes.string,
     content: PropTypes.string,
     created_at: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    sender: PropTypes.object,
+    senderId: PropTypes.string,
     currentUser: PropTypes.object,
     onCommentDelete: PropTypes.func
 };

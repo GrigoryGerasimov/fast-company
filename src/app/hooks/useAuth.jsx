@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import PropTypes from "prop-types";
 import axios from "axios";
 import { setTokens, getTokens, removeTokens } from "../services/localStorageService.js";
 import { authConstants } from "../utils/constants/authConstants.js";
@@ -11,6 +10,7 @@ import { getRandomNumberInRange } from "../utils/randomizer/getRandomNumberInRan
 import Loader from "../components/common/Loader.jsx";
 import { getRandomImg } from "../utils/randomizer/getRandomImg.js";
 import { setIntoStorage, getFromStorage, removeFromStorage } from "../utils/storage";
+import PropTypes from "prop-types";
 
 const AuthContext = React.createContext();
 export const httpAuth = axios.create();

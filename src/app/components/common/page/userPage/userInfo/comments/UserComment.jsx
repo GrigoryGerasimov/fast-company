@@ -1,9 +1,12 @@
 import React from "react";
 import { UserPic } from "../UserPic";
 import { UserCommentBody } from "./comment/UserCommentBody";
+import { useSelector } from "react-redux";
+import { getUserById } from "../../../../../../store/users.js";
 import PropTypes from "prop-types";
 
-export const UserComment = ({ id, sender, currentUser, timestamp, content, onCommentDelete }) => {
+export const UserComment = ({ id, senderId, currentUser, timestamp, content, onCommentDelete }) => {
+    const sender = useSelector(getUserById(senderId)) ?? currentUser;
     return (
         <div className="d-flex flex-start">
             <UserPic
@@ -26,7 +29,7 @@ export const UserComment = ({ id, sender, currentUser, timestamp, content, onCom
 
 UserComment.propTypes = {
     id: PropTypes.string,
-    sender: PropTypes.object,
+    senderId: PropTypes.string,
     currentUser: PropTypes.object,
     timestamp: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     content: PropTypes.string,
