@@ -4,7 +4,7 @@ import { authService } from "../services/authService.js";
 import { setTokens, getTokens, removeTokens } from "../services/localStorageService.js";
 import { getRandomNumberInRange } from "../utils/randomizer/getRandomNumberInRange.js";
 import { getRandomImg } from "../utils/randomizer/getRandomImg.js";
-import history from "../utils/history/history.js";
+// import history from "../utils/history/history.js";
 import { FirebaseAuthError } from "../utils/authError/FirebaseAuthError.js";
 
 const initialState = getTokens().accessToken ? {
@@ -115,7 +115,7 @@ export const loadUsersList = () => async (dispatch) => {
     }
 };
 
-export const signIn = ({ payload, redirect }) => async (dispatch) => {
+export const signIn = ({ payload }) => async (dispatch) => {
     dispatch(authRequested());
     const { email, password } = payload;
     try {
@@ -124,7 +124,7 @@ export const signIn = ({ payload, redirect }) => async (dispatch) => {
             userId: data.localId
         }));
         setTokens(data);
-        history.push(redirect);
+        // history.push(redirect);
     } catch (error) {
         const { code, message } = error.response.data.error;
         if (code === 400) {
@@ -139,7 +139,7 @@ export const createUser = payload => async (dispatch) => {
     try {
         const { content } = await userService.update(payload._id, payload);
         dispatch(userCreationSuccessfulRequest(content));
-        history.push("/");
+        // history.push("/");
     } catch (error) {
         dispatch(userCreationFailedRequest(error.message));
     }
@@ -180,7 +180,7 @@ export const signUp = ({ email, password, ...rest }) => async (dispatch) => {
 export const signOut = () => (dispatch) => {
     removeTokens();
     dispatch(userSuccessfulSignOut());
-    history.replace("/login");
+    // history.replace("/login");
 };
 
 export const deleteUser = (userId) => async (dispatch) => {

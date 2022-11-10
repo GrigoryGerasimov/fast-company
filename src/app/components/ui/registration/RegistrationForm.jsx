@@ -59,6 +59,7 @@ export const RegistrationForm = () => {
         };
         dispatch(signUp(newData));
         toast.success("Вы успешно зарегистрированы в системе");
+        navigate("/");
     };
     return (
         <form onSubmit={handleSubmit}>

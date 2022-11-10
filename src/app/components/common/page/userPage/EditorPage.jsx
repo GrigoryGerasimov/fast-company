@@ -80,7 +80,7 @@ export const EditorPage = () => {
         <form onSubmit={handleSubmit}>
             <button
                 className="btn btn-primary offset-1 m-3 w-25"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate(`/users/${currentUserId}`)}
             >
                 Назад
             </button>

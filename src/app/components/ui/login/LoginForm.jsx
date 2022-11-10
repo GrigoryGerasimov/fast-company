@@ -40,8 +40,8 @@ export const LoginForm = () => {
         evt.preventDefault();
         const isValid = !validate();
         if (!isValid) return false;
-        const redirect = location.state ? location.state.from.pathname : "/";
-        dispatch(signIn({ payload: data, redirect }));
+        dispatch(signIn({ payload: data }));
+        navigate(location.state ? location.state.from.pathname : "/");
         // history.replace();
     };
 
