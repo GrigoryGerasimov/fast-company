@@ -26,7 +26,7 @@ const NavBar = () => {
                 </ul>
                 <div className="d-flex">
                     {isLoggedIn ? <NavProfile/> : (
-                        <Link className="nav-link text-light" style={{ textDecoration: "none" }} to="/login">
+                        <Link className="nav-link text-light" style={{ textDecoration: "none" }} to="/login/signin">
                             Login
                         </Link>
                     )}

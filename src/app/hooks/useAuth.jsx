@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setTokens, getTokens, removeTokens } from "../services/localStorageService.js";
 import { authConstants } from "../utils/constants/authConstants.js";
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [stayOn, setStayOn] = useState(getFromStorage("stayOn") ?? false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const errorCatcher = error => {
         const { code, message } = error.response.data.error;
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
         removeTokens();
         removeFromStorage("stayOn");
         setCurrentUser(null);
-        history.replace("/login");
+        navigate("/login", { replace: true });
     };
 
     const signOutOnUnload = () => removeTokens();

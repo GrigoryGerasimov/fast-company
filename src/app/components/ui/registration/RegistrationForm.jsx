@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { TextField, SelectField, RadioField, MultiSelectField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
@@ -6,10 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { getQualities } from "../../../store/qualities.js";
 import { getProfessions } from "../../../store/professions.js";
 import { toast } from "react-toastify";
-import PropTypes from "prop-types";
 import { signUp } from "../../../store/users.js";
 
-export const RegistrationForm = ({ info }) => {
+export const RegistrationForm = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
@@ -132,11 +133,18 @@ export const RegistrationForm = ({ info }) => {
             >
                 Отправить
             </button>
-            {info}
+            {/* {info} */}
+            <p className="mt-3">
+                Already have an account?{" "}
+                <span
+                    className="badge bg-info"
+                    role="button"
+                    // onClick={toggleFormType}
+                    onClick={() => navigate("/login/signin")}
+                >
+                        Sign in
+                </span>
+            </p>
         </form>
     );
-};
-
-RegistrationForm.propTypes = {
-    info: PropTypes.object
 };

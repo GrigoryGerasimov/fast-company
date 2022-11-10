@@ -196,12 +196,12 @@ const usersSelectors = {
     getUsers: () => state => state.users.entities ? state.users.entities.filter(userEntity => userEntity?._id !== state.users.auth.userId) : null,
     getUserById: id => state => state.users.entities ? state.users.entities.find(userEntity => userEntity?._id === id) : null,
     getCurrentUser: () => state => state.users.entities ? state.users.entities.find(userEntity => userEntity?._id === state.users.auth.userId) : null,
-    getDeletedUserId: () => state => state.users.deletedUserId,
-    getUsersLoadingStatus: () => state => state.users.isLoading,
-    getUserLoggedInStatus: () => state => state.users.isLoggedIn,
-    getDataStatus: () => state => state.users.dataLoaded,
-    getCurrentUserId: () => state => state.users.auth.userId,
-    getAuthError: () => state => state.users.error
+    getDeletedUserId: () => state => state.users?.deletedUserId,
+    getUsersLoadingStatus: () => state => state.users?.isLoading,
+    getUserLoggedInStatus: () => state => state.users?.isLoggedIn,
+    getDataStatus: () => state => state.users?.dataLoaded,
+    getCurrentUserId: () => state => state.users.auth?.userId,
+    getAuthError: () => state => state.users?.error
 };
 
 export const { getUsers, getUsersLoadingStatus, getUserById, getCurrentUser, getDeletedUserId, getUserLoggedInStatus, getDataStatus, getCurrentUserId, getAuthError } = usersSelectors;

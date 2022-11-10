@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
     UserInfoCard,
     UserQualitiesCard,
@@ -9,13 +9,17 @@ import {
 import Loader from "../../Loader.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { loadCommentsList, getDeletedCommentId } from "../../../../store/comments.js";
-import PropTypes from "prop-types";
+import { getCurrentUser, getCurrentUserId, getUserById } from "../../../../store/users";
 
-export const UserPage = ({ user, id }) => {
+export const UserPage = () => {
     const { userId } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const deletedCommentId = useSelector(getDeletedCommentId());
+    const currentUserId = useSelector(getCurrentUserId());
+    const currentUser = useSelector(getCurrentUser());
+    const userById = useSelector(getUserById(userId));
+    const user = currentUserId === userId ? currentUser : userById;
 
     useEffect(() => {
         dispatch(loadCommentsList(userId));
@@ -25,7 +29,7 @@ export const UserPage = ({ user, id }) => {
         <>
             <div className="col-md-4 mb-3">
                 <UserInfoCard
-                    id={id}
+                    id={userId}
                     imgSource={user.image}
                     name={user.name}
                     profession={user.profession}
@@ -36,7 +40,7 @@ export const UserPage = ({ user, id }) => {
                 <button
                     type="button"
                     className="btn btn-primary w-100"
-                    onClick={() => user ? history.push("/users") : history.replace("/users")}
+                    onClick={() => navigate("/users")}
                 >
                     Все пользователи
                 </button>
@@ -48,9 +52,4 @@ export const UserPage = ({ user, id }) => {
     ) : (
         <Loader/>
     );
-};
-
-UserPage.propTypes = {
-    id: PropTypes.string,
-    user: PropTypes.object
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { getUserLoggedInStatus } from "../../../store/users.js";
@@ -7,7 +7,8 @@ import { getUserLoggedInStatus } from "../../../store/users.js";
 const withRouteProtection = Component => {
     const ReturnedRoute = ({ path, children }) => {
         const isLoggedIn = useSelector(getUserLoggedInStatus());
-        return <Route path={path} render={(props) => !isLoggedIn ? <Redirect to={{ pathname: "/login", state: { from: props.location } }}/> : Component ? <Component {...props}/> : children}/>;
+        const location = useLocation();
+        return <Route path={path} element={!isLoggedIn ? <Navigate to="/login" state={{ from: location }}/> : Component ? <Component/> : children}/>;
     };
 
     ReturnedRoute.propTypes = {

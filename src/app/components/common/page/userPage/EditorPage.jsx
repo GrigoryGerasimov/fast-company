@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { TextField, SelectField, RadioField, MultiSelectField } from "../../form";
 import { validator } from "../../../../utils/validation/validator.js";
-import { useHistory, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { validatorConfig } from "./validatorConfig.js";
 import Loader from "../../Loader.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getQualities, getQualitiesLoadingStatus } from "../../../../store/qualities.js";
 import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
-import { updateUser } from "../../../../store/users.js";
+import { getCurrentUser, getCurrentUserId, getUserById, updateUser } from "../../../../store/users.js";
 
-export const EditorPage = ({ user }) => {
-    const history = useHistory();
-    const dispatch = useDispatch();
+export const EditorPage = () => {
     const { userId } = useParams();
+    const currentUserId = useSelector(getCurrentUserId());
+
+    if (userId !== currentUserId) return <Navigate to={`/users/${currentUserId}/edit`}/>;
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const currentUser = useSelector(getCurrentUser());
+    const userById = useSelector(getUserById(userId));
+    const user = currentUserId === userId ? currentUser : userById;
     const { name, email, profession, gender, qualities } = user;
     const professionsCollection = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
@@ -67,11 +73,17 @@ export const EditorPage = ({ user }) => {
             ...data,
             qualities: data.qualities.map(quality => quality.value)
         }));
-        history.push(`/users/${userId}`);
+        navigate(-1);
     };
 
     return !professionsLoading && !qualitiesLoading ? (
         <form onSubmit={handleSubmit}>
+            <button
+                className="btn btn-primary offset-1 m-3 w-25"
+                onClick={() => navigate(-1)}
+            >
+                Назад
+            </button>
             <TextField
                 label="Имя"
                 name="name"
@@ -115,6 +127,7 @@ export const EditorPage = ({ user }) => {
                 error={errors.qualities}
             />
             <button
+                type="submit"
                 disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"
             >
@@ -124,8 +137,4 @@ export const EditorPage = ({ user }) => {
     ) : (
         <Loader/>
     );
-};
-
-EditorPage.propTypes = {
-    user: PropTypes.object
 };
