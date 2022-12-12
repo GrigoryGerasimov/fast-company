@@ -4,12 +4,9 @@ import { FirebaseDataInitializer } from "../components/FirebaseDataInitializer.j
 
 const Main = () => {
     return (
-        <>
-            <h1>Main Page</h1>
-            <ContainerWrapper>
-                <FirebaseDataInitializer/>
-            </ContainerWrapper>
-        </>
+        <ContainerWrapper>
+            <FirebaseDataInitializer/>
+        </ContainerWrapper>
     );
 };
 
