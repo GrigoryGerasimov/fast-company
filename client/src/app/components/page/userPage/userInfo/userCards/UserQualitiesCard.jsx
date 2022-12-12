@@ -1,13 +1,19 @@
 import React from "react";
 import { Qualities } from "../../../../ui/qualities";
-import { CardWrapper } from "../../../../common/wrappers";
 import PropTypes from "prop-types";
 
 const UserQualitiesCard = ({ qualities }) => {
     return (
-        <CardWrapper>
-            <Qualities idData={qualities} />
-        </CardWrapper>
+        <div className="card mb-3">
+            <div className="card-body d-flex flex-column justify-content-center text-center">
+                <h5 className="card-title">
+                    <span>Qualities</span>
+                </h5>
+                <div className="card-text">
+                    <Qualities idData={qualities} />
+                </div>
+            </div>
+        </div>
     );
 };
 

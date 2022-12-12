@@ -60,7 +60,6 @@ router.post("/signUp", [
             await tokenService.save(newUser._id, tokens.refreshToken);
             res.status(201).json({ ...tokens, _id: newUser._id });
         } catch (err) {
-            process.env.NODE_ENV === "development" && console.log(chalk.red(err));
             res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
         }
     }]);
@@ -110,7 +109,6 @@ router.post("/signInWithPassword", [
             await tokenService.save(existingUser._id, tokens.refreshToken);
             res.status(200).json({ ...tokens, _id: existingUser._id });
         } catch (err) {
-            process.env.NODE_ENV === "development" && console.log(chalk.red(err));
             res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
         }
     }]);
@@ -135,7 +133,6 @@ router.post("/token", async (req, res) => {
         await tokenService.save(dbToken.user.toString(), tokens.refreshToken);
         res.status(200).json({ ...tokens, userId: dbToken.user.toString() });
     } catch (err) {
-        process.env.NODE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 });

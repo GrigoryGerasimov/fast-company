@@ -26,29 +26,32 @@ export const UserPage = () => {
     }, [userId, deletedCommentId]);
 
     return user?._id ? (
-        <>
-            <div className="col-md-4 mb-3">
-                <UserInfoCard
-                    id={userId}
-                    imgSource={user.image}
-                    name={user.name}
-                    profession={user.profession}
-                    rate={user.rate}
-                />
-                <UserQualitiesCard qualities={user.qualities}/>
-                <UserMeetingsCard meetings={user.completedMeetings}/>
-                <button
-                    type="button"
-                    className="btn btn-primary w-100"
-                    onClick={() => navigate("/users")}
-                >
-                    Все пользователи
-                </button>
+        <div className="container mt-5">
+            <div className="row gutters-sm">
+                <h3 className="mb-4">Страница пользователя</h3>
+                <div className="col-md-4 mb-3">
+                    <UserInfoCard
+                        id={userId}
+                        imgSource={user.image}
+                        name={user.name}
+                        profession={user.profession}
+                        rate={user.rate}
+                    />
+                    <UserQualitiesCard qualities={user.qualities}/>
+                    <UserMeetingsCard meetings={user.completedMeetings}/>
+                    <button
+                        type="button"
+                        className="btn btn-primary w-100"
+                        onClick={() => navigate("/users")}
+                    >
+                        Все пользователи
+                    </button>
+                </div>
+                <div className="col-md-8">
+                    <CommentsList/>
+                </div>
             </div>
-            <div className="col-md-8">
-                <CommentsList/>
-            </div>
-        </>
+        </div>
     ) : (
         <Loader/>
     );
