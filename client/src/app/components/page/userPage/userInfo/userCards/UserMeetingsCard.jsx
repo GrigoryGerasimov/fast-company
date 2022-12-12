@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../../wrappers";
-import { Meetings } from "../../../../../ui/Meetings.jsx";
+import { CardWrapper } from "../../../../common/wrappers";
+import { Meetings } from "../../../../ui/Meetings.jsx";
 import PropTypes from "prop-types";
 
 const UserMeetingsCard = ({ meetings }) => {

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { TextField, SelectField, RadioField, MultiSelectField } from "../../form";
-import { validator } from "../../../../utils/validation/validator.js";
+import { TextField, SelectField, RadioField, MultiSelectField } from "../../common/form";
+import { validator } from "../../../utils/validation/validator.js";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { validatorConfig } from "./validatorConfig.js";
-import Loader from "../../Loader.jsx";
+import Loader from "../../common/Loader.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getQualities, getQualitiesLoadingStatus } from "../../../../store/qualities.js";
-import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
-import { getCurrentUser, getCurrentUserId, getUserById, updateUser } from "../../../../store/users.js";
+import { getQualities, getQualitiesLoadingStatus } from "../../../store/qualities.js";
+import { getProfessions, getProfessionsLoadingStatus } from "../../../store/professions.js";
+import { getCurrentUser, getCurrentUserId, getUserById, updateUser } from "../../../store/users.js";
 
 export const EditorPage = () => {
     const { userId } = useParams();

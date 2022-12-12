@@ -3,13 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { TextField, SelectField, RadioField, MultiSelectField, CheckBoxField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
-import { useSelector, useDispatch } from "react-redux";
-import { getQualities } from "../../../store/qualities.js";
-import { getProfessions } from "../../../store/professions.js";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { signUp } from "../../../store/users.js";
+import PropTypes from "prop-types";
 
-export const RegistrationForm = () => {
+export const RegistrationForm = ({ qualities, professions }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [data, setData] = useState({
@@ -22,12 +21,12 @@ export const RegistrationForm = () => {
         qualities: [],
         license: false
     });
-    const qualities = useSelector(getQualities());
+
     const qualitiesList = qualities.map(quality => ({
         label: quality.name,
         value: quality._id
     }));
-    const professions = useSelector(getProfessions());
+
     const [errors, setErrors] = useState({});
 
     const validate = useCallback(() => {
@@ -134,7 +133,6 @@ export const RegistrationForm = () => {
             >
                 Отправить
             </button>
-            {/* {info} */}
             <p className="mt-3">
                 Already have an account?{" "}
                 <span
@@ -147,4 +145,9 @@ export const RegistrationForm = () => {
             </p>
         </form>
     );
+};
+
+RegistrationForm.propTypes = {
+    qualities: PropTypes.array,
+    professions: PropTypes.array
 };

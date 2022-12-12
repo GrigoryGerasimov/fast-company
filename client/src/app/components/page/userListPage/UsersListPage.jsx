@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { UsersTable } from "../../../ui/UsersTable.jsx";
-import { Pagination } from "../../Pagination.jsx";
-import { paginate, getPagesRange } from "../../../../utils/pagination/paginate.js";
-import { GroupList } from "../../GroupList.jsx";
+import { UsersTable } from "../../ui/UsersTable.jsx";
+import { Pagination } from "../../common/Pagination.jsx";
+import { paginate, getPagesRange } from "../../../utils/pagination/paginate.js";
+import { GroupList } from "../../common/GroupList.jsx";
 import PropTypes from "prop-types";
-import { SearchStatus } from "../../../ui/SearchStatus.jsx";
-import { SearchBar } from "../../../ui/SearchBar.jsx";
+import { SearchStatus } from "../../ui/SearchStatus.jsx";
+import { SearchBar } from "../../ui/SearchBar.jsx";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import Loader from "../../Loader.jsx";
+import Loader from "../../common/Loader.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getProfessions, getProfessionsLoadingStatus } from "../../../../store/professions.js";
-import { getUsers, deleteUser, getDataStatus } from "../../../../store/users.js";
-import { useBookmarks } from "../../../../hooks/useBookmarks.jsx";
+import { getProfessions, getProfessionsLoadingStatus } from "../../../store/professions.js";
+import { getUsers, deleteUser, getDataStatus } from "../../../store/users.js";
+import { useBookmarks } from "../../../hooks/useBookmarks.jsx";
 
 export const UsersListPage = () => {
     const users = useSelector(getUsers());

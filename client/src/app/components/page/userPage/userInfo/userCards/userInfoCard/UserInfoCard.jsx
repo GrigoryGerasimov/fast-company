@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../../../../wrappers";
+import { CardWrapper } from "../../../../../common/wrappers";
 import { UserInfoCardBody } from "./UserInfoCardBody.jsx";
 import PropTypes from "prop-types";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { UserPic } from "../common/page/userPage";
+import { UserPic } from "../page/userPage";
 import { useSelector } from "react-redux";
 import { getCurrentUser, getCurrentUserId } from "../../store/users.js";
 import Loader from "../common/Loader.jsx";

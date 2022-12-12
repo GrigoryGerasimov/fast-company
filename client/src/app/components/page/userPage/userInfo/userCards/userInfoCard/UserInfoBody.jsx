@@ -1,5 +1,5 @@
 import React from "react";
-import { Profession } from "../../../../../../ui/Profession";
+import { Profession } from "../../../../../ui/Profession";
 import { UserRate } from "../../UserRate";
 import PropTypes from "prop-types";
 

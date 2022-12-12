@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { TextField, CheckBoxField } from "../../common/form";
+import { TextField } from "../../common/form";
 import { validator } from "../../../utils/validation/validator.js";
 import { validatorConfig } from "./validatorConfig.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +12,7 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
-        password: "",
-        stayOn: false
+        password: ""
     });
     const [errors, setErrors] = useState({});
     const loginError = useSelector(getAuthError());
@@ -61,13 +60,6 @@ export const LoginForm = () => {
                 onChange={handleChange}
                 error={errors.password}
             />
-            <CheckBoxField
-                value={data.stayOn}
-                name="stayOn"
-                onChange={handleChange}
-            >
-                Оставаться в системе
-            </CheckBoxField>
             {loginError && <div className="text-danger">{loginError}</div>}
             <button
                 disabled={!isValid}
@@ -75,7 +67,6 @@ export const LoginForm = () => {
             >
                 Отправить
             </button>
-            {/* {info} */}
             <p className="mt-3">
                 Don`t have an account?{" "}
                 <span

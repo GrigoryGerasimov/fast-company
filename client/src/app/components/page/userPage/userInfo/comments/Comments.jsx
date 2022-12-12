@@ -1,7 +1,7 @@
 import React from "react";
 import { Comment } from "./index";
 import { useSelector } from "react-redux";
-import { getCurrentUser } from "../../../../../../store/users.js";
+import { getCurrentUser } from "../../../../../store/users.js";
 import PropTypes from "prop-types";
 
 export const Comments = ({ comments, onCommentDelete }) => {
