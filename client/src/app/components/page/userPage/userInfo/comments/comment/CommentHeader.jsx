@@ -1,7 +1,7 @@
 import React from "react";
-import { UserName } from "../../../../../UserName";
+import { UserName } from "../../../../../common/UserName";
 import { CommentTimestamp } from "../index";
-import { CloseButton } from "../../../../../../ui/CloseButton";
+import { CloseButton } from "../../../../../ui/CloseButton";
 import PropTypes from "prop-types";
 
 export const CommentHeader = ({ id, sender, currentUser, timestamp, onCommentDelete }) => {

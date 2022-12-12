@@ -1,9 +1,9 @@
 import React from "react";
 import { UserPic } from "../../UserPic";
-import { EditButton } from "../../../../../../ui/EditButton";
+import { EditButton } from "../../../../../ui/EditButton";
 import { UserInfoBody } from "./UserInfoBody.jsx";
 import { useSelector } from "react-redux";
-import { getCurrentUserId } from "../../../../../../../store/users.js";
+import { getCurrentUserId } from "../../../../../../store/users.js";
 import PropTypes from "prop-types";
 
 export const UserInfoCardBody = ({ id, source, name, profession, rate }) => {

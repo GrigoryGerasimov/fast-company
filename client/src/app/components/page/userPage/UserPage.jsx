@@ -6,10 +6,10 @@ import {
     UserMeetingsCard,
     CommentsList
 } from "./userInfo";
-import Loader from "../../Loader.jsx";
+import Loader from "../../common/Loader.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { loadCommentsList, getDeletedCommentId } from "../../../../store/comments.js";
-import { getCurrentUser, getCurrentUserId, getUserById } from "../../../../store/users";
+import { loadCommentsList, getDeletedCommentId } from "../../../store/comments.js";
+import { getCurrentUser, getCurrentUserId, getUserById } from "../../../store/users";
 
 export const UserPage = () => {
     const { userId } = useParams();

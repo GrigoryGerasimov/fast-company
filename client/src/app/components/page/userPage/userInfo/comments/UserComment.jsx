@@ -2,7 +2,7 @@ import React from "react";
 import { UserPic } from "../UserPic";
 import { UserCommentBody } from "./comment/UserCommentBody";
 import { useSelector } from "react-redux";
-import { getUserById } from "../../../../../../store/users.js";
+import { getUserById } from "../../../../../store/users.js";
 import PropTypes from "prop-types";
 
 export const UserComment = ({ id, senderId, currentUser, timestamp, content, onCommentDelete }) => {

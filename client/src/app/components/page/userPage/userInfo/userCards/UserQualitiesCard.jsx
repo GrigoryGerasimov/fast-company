@@ -1,6 +1,6 @@
 import React from "react";
-import { Qualities } from "../../../../../ui/qualities";
-import { CardWrapper } from "../../../../wrappers";
+import { Qualities } from "../../../../ui/qualities";
+import { CardWrapper } from "../../../../common/wrappers";
 import PropTypes from "prop-types";
 
 const UserQualitiesCard = ({ qualities }) => {

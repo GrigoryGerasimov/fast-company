@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getUsers, updateUser } from "../../../../../store/users";
+import { getUsers, updateUser } from "../../../../store/users";
 import PropTypes from "prop-types";
 
 export const UserRate = ({ id, rate }) => {

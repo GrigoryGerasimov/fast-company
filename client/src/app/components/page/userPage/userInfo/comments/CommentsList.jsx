@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { NewComment } from "./index";
-import { CardWrapper, Divider } from "../../../../wrappers";
+import { CardWrapper, Divider } from "../../../../common/wrappers";
 import { Comments } from "./Comments.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { getComments, createComment, deleteComment, getCommentsLoadingStatus } from "../../../../../../store/comments.js";
-import { getCurrentUserId } from "../../../../../../store/users.js";
-import Loader from "../../../../Loader.jsx";
+import { getComments, createComment, deleteComment, getCommentsLoadingStatus } from "../../../../../store/comments.js";
+import { getCurrentUserId } from "../../../../../store/users.js";
+import Loader from "../../../../common/Loader.jsx";
 
 const CommentsList = () => {
     const { userId } = useParams();

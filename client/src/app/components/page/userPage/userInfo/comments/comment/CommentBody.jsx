@@ -1,5 +1,5 @@
 import React from "react";
-import { SmallText } from "../../../../../wrappers";
+import { SmallText } from "../../../../../common/wrappers";
 import PropTypes from "prop-types";
 
 export const CommentBody = ({ content }) => {

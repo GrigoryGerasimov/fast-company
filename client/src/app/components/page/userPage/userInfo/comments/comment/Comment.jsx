@@ -1,6 +1,6 @@
 import React from "react";
 import { UserComment } from "../UserComment.jsx";
-import { CardWrapper } from "../../../../../wrappers";
+import { CardWrapper } from "../../../../../common/wrappers";
 import PropTypes from "prop-types";
 
 const Comment = ({
