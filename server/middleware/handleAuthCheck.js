@@ -19,7 +19,6 @@ const handleAuthCheck = async (req, res, next) => {
 
         next();
     } catch (err) {
-        process.env.NODE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 };

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { ContainerWrapper } from "../../components/common/wrappers";
 import { RegistrationForm } from "../../components/ui/registration/RegistrationForm";
 import { getQualities, loadQualitiesList } from "../../store/qualities";
 import { getProfessions, loadProfessionsList } from "../../store/professions";
@@ -20,9 +19,14 @@ const SignUp = () => {
     if (!qualities || !professions) return <Loader/>;
 
     return (
-        <ContainerWrapper>
-            <RegistrationForm qualities={qualities} professions={professions}/>
-        </ContainerWrapper>
+        <div className="container mt-5">
+            <div className="row">
+                <div className="col-md-6 offset-3 shadow p-4">
+                    <h3 className="mb-4">Регистрация</h3>
+                    <RegistrationForm qualities={qualities} professions={professions}/>
+                </div>
+            </div>
+        </div>
     );
 };
 

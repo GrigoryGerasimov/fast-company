@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { NewComment } from "./index";
-import { CardWrapper, Divider } from "../../../../common/wrappers";
+import { Divider } from "../../../../common/wrappers";
 import { Comments } from "./Comments.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { getComments, createComment, deleteComment, getCommentsLoadingStatus } from "../../../../../store/comments.js";
@@ -22,13 +22,19 @@ const CommentsList = () => {
 
     return (
         <>
-            <CardWrapper cardClass="mb-2">
-                <NewComment onCommentAdd={handleCommentAdd}/>
-            </CardWrapper>
+            <div className="card mb-2">
+                <div className="card-body">
+                    <h2>New comment</h2>
+                    <NewComment onCommentAdd={handleCommentAdd}/>
+                </div>
+            </div>
             <Divider/>
-            <CardWrapper>
-                <Comments comments={comments} onCommentDelete={handleCommentDelete}/>
-            </CardWrapper>
+            <div className="card mb-3">
+                <div className="card-body">
+                    <h2>Comments</h2>
+                    <Comments comments={comments} onCommentDelete={handleCommentDelete}/>
+                </div>
+            </div>
         </>
     );
 };

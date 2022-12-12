@@ -1,19 +1,20 @@
 import React from "react";
-import { CardWrapper } from "../../../../../common/wrappers";
 import { UserInfoCardBody } from "./UserInfoCardBody.jsx";
 import PropTypes from "prop-types";
 
 const UserInfoCard = ({ id, imgSource, name, profession, rate }) => {
     return (
-        <CardWrapper>
-            <UserInfoCardBody
-                id={id}
-                source={imgSource}
-                name={name}
-                profession={profession}
-                rate={rate}
-            />
-        </CardWrapper>
+        <div className="card mb-3">
+            <div className="card-body">
+                <UserInfoCardBody
+                    id={id}
+                    source={imgSource}
+                    name={name}
+                    profession={profession}
+                    rate={rate}
+                />
+            </div>
+        </div>
     );
 };
 

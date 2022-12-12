@@ -19,7 +19,6 @@ router.delete("/:commentId", [
             await Comment.findByIdAndDelete(req.params.commentId);
             res.status(200).send("Комментарий успешно удалён");
         } catch (err) {
-            process.env.NODE_ENV === "development" && console.log(err);
             res.status(500).send("Произошёл внутренний сбой на сервере. Попробуйте ещё");
         }
     }]);
@@ -32,7 +31,6 @@ router.route("/").get(
             const list = await Comment.find({ [orderBy]: equalTo });
             res.status(200).send(list);
         } catch (err) {
-            process.env.NODE_ENV === "development" && console.log(chalk.red(err));
             res.status(500).send("Произошёл внутренний сбой на сервере. Попробуйте ещё");
         }
     }
@@ -46,7 +44,6 @@ router.route("/").get(
             });
             res.status(201).json(newComment);
         } catch (err) {
-            process.env.NODE_ENV === "development" && console.log(chalk.red(err));
             res.status(500).send("Произошёл внутренний сбой на сервере. Попробуйте ещё");
         }
     }

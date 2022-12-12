@@ -1,6 +1,5 @@
 import React from "react";
 import { UserComment } from "../UserComment.jsx";
-import { CardWrapper } from "../../../../../common/wrappers";
 import PropTypes from "prop-types";
 
 const Comment = ({
@@ -12,16 +11,22 @@ const Comment = ({
     onCommentDelete
 }) => {
     return (
-        <CardWrapper>
-            <UserComment
-                id={_id}
-                senderId={senderId}
-                currentUser={currentUser}
-                timestamp={timestamp}
-                content={content}
-                onCommentDelete={onCommentDelete}
-            />
-        </CardWrapper>
+        <div className="card mb-3">
+            <div className="card-body bg-light">
+                <div className="row">
+                    <div className="col">
+                        <UserComment
+                            id={_id}
+                            senderId={senderId}
+                            currentUser={currentUser}
+                            timestamp={timestamp}
+                            content={content}
+                            onCommentDelete={onCommentDelete}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

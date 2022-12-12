@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
         const list = await Profession.find();
         res.status(200).send(list);
     } catch (err) {
-        process.env.NODE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 });

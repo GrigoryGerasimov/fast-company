@@ -10,7 +10,6 @@ router.put("/:userId", handleAuthCheck, async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
         res.status(200).json(updatedUser);
     } catch (err) {
-        process.env.NDOE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 });
@@ -20,7 +19,6 @@ router.get("/", handleAuthCheck, async (req, res) => {
         const list = await User.find();
         res.status(200).send(list);
     } catch (err) {
-        process.env.NODE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 });
@@ -30,7 +28,6 @@ router.get("/:userId", handleAuthCheck, async (req, res) => {
         const user = await User.findById(req.params.userId);
         res.status(200).send(user);
     } catch (err) {
-        process.env.NODE_ENV === "development" && console.log(chalk.red(err));
         res.status(500).send("Произошёл внутренний сбой на сервере. Повторите попытку снова");
     }
 });
