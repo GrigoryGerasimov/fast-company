@@ -1,0 +1,6 @@
+{
+  "PORT": 5000,
+  "mongoURI": "mongodb+srv://GrigoryGerasimov:0u5USrNWF8xmCszN@cluster0.5kaiqsf.mongodb.net/?retryWrites=true&w=majority",
+  "accessToken": "access token key",
+  "refreshToken": "refresh token key"
+}
